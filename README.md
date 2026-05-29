@@ -360,6 +360,7 @@ uv build --wheel
 | [`docs/HARNESS_MVP_HIGH_AVAILABILITY.md`](docs/HARNESS_MVP_HIGH_AVAILABILITY.md) | Durable local runner design |
 | [`docs/AGENTCHART_HARNESS_AGENT_RELATIONSHIP_ZH.md`](docs/AGENTCHART_HARNESS_AGENT_RELATIONSHIP_ZH.md) | Chinese explanation of AgentChart, harness, and full agents such as Hermes |
 | [`docs/DEEPAGENTS_ADAPTER.md`](docs/DEEPAGENTS_ADAPTER.md) | First external runtime adapter for compiling AgentCharts to DeepAgents |
+| [`docs/HERMES_ADAPTER.md`](docs/HERMES_ADAPTER.md) | Adapter for compiling AgentCharts into Hermes Agent invocations |
 | [`docs/HARNESS_RUNTIME_COMPARISON.md`](docs/HARNESS_RUNTIME_COMPARISON.md) | AgentChart, DeepAgents, OpenClaw, Claude Code, Codex comparison |
 | [`docs/HARNESS_TAXONOMY_MATRIX.md`](docs/HARNESS_TAXONOMY_MATRIX.md) | Capability taxonomy for harness runtimes |
 | [`docs/SHOWCASE.md`](docs/SHOWCASE.md) | Practical usage examples |

@@ -46,6 +46,10 @@ session storage. The gap is not basic capability; the gap is a crisp split among
 The new `mvp-local` runner starts closing that gap with a deterministic runtime
 that proves the controller substrate before any LLM-specific complexity enters.
 
+The Hermes adapter adds a product-agent integration path: AgentChart can now
+compile a chart into Hermes CLI/Python invocation arguments while keeping Hermes
+as an optional external agent application.
+
 ### Claude Code
 
 Claude Code has one of the strongest agent package stories: Markdown/JSON agent
