@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import asyncio
+import json
 import sys
 from pathlib import Path
 
@@ -18,6 +19,13 @@ from ohmo.gateway.service import (
     gateway_status,
     start_gateway_process,
     stop_gateway_process,
+)
+from ohmo.harness_mvp import (
+    DurableRunStore,
+    HarnessMvpError,
+    LocalMvpHarness,
+    load_agent_chart,
+    write_sample_chart,
 )
 from ohmo.memory import add_memory_entry, list_memory_files, remove_memory_entry
 from ohmo.runtime import launch_ohmo_react_tui, run_ohmo_backend, run_ohmo_print_mode
@@ -43,11 +51,13 @@ memory_app = typer.Typer(name="memory", help="Manage .ohmo memory")
 soul_app = typer.Typer(name="soul", help="Inspect or edit soul.md")
 user_app = typer.Typer(name="user", help="Inspect or edit user.md")
 gateway_app = typer.Typer(name="gateway", help="Run the ohmo gateway")
+harness_app = typer.Typer(name="harness", help="Run the high-availability MVP harness")
 
 app.add_typer(memory_app)
 app.add_typer(soul_app)
 app.add_typer(user_app)
 app.add_typer(gateway_app)
+app.add_typer(harness_app)
 
 _INTERACTIVE_CHANNELS = ("telegram", "slack", "discord", "feishu")
 
@@ -561,3 +571,93 @@ def gateway_status_cmd(
 ) -> None:
     state = gateway_status(cwd, workspace)
     print(state.model_dump_json(indent=2))
+
+
+def _harness_store(workspace: str | None) -> DurableRunStore:
+    root = initialize_workspace(workspace)
+    return DurableRunStore(root / "harness")
+
+
+@harness_app.command("sample")
+def harness_sample_cmd(
+    output: str = typer.Option("agentchart.mvp.yaml", "--output", "-o", help="Where to write the sample AgentChart"),
+    cwd: str = typer.Option(str(Path.cwd()), "--cwd", help="Workspace cwd embedded in the chart"),
+) -> None:
+    """Write a runnable mvp-local AgentChart."""
+    path = write_sample_chart(output, cwd)
+    print(f"Wrote sample AgentChart to {path}")
+
+
+@harness_app.command("run")
+def harness_run_cmd(
+    chart: str = typer.Argument(..., help="Path to AgentChart YAML/JSON"),
+    workspace: str | None = typer.Option(None, "--workspace", help="Path to the ohmo workspace (defaults to ~/.ohmo)"),
+) -> None:
+    """Run an AgentChart with durable state, checkpoints, retries, and trace events."""
+    store = _harness_store(workspace)
+    try:
+        agent_chart = load_agent_chart(chart)
+        harness = LocalMvpHarness(chart=agent_chart, store=store)
+        state = harness.start()
+    except HarnessMvpError as exc:
+        print(f"harness run failed: {exc}", file=sys.stderr)
+        raise typer.Exit(1) from exc
+    print(state.model_dump_json(indent=2))
+
+
+@harness_app.command("resume")
+def harness_resume_cmd(
+    run_id: str = typer.Argument("latest", help="Run id to resume, or 'latest'"),
+    chart: str = typer.Argument(..., help="Path to the same AgentChart YAML/JSON"),
+    workspace: str | None = typer.Option(None, "--workspace", help="Path to the ohmo workspace (defaults to ~/.ohmo)"),
+) -> None:
+    """Resume a failed or interrupted MVP harness run."""
+    store = _harness_store(workspace)
+    resolved_run_id = store.latest_run_id() if run_id == "latest" else run_id
+    if not resolved_run_id:
+        print("No latest harness run found.", file=sys.stderr)
+        raise typer.Exit(1)
+    try:
+        agent_chart = load_agent_chart(chart)
+        harness = LocalMvpHarness(chart=agent_chart, store=store)
+        state = harness.resume(resolved_run_id)
+    except HarnessMvpError as exc:
+        print(f"harness resume failed: {exc}", file=sys.stderr)
+        raise typer.Exit(1) from exc
+    print(state.model_dump_json(indent=2))
+
+
+@harness_app.command("status")
+def harness_status_cmd(
+    run_id: str = typer.Argument("latest", help="Run id to inspect, or 'latest'"),
+    workspace: str | None = typer.Option(None, "--workspace", help="Path to the ohmo workspace (defaults to ~/.ohmo)"),
+) -> None:
+    """Print durable MVP harness run status."""
+    store = _harness_store(workspace)
+    resolved_run_id = store.latest_run_id() if run_id == "latest" else run_id
+    if not resolved_run_id:
+        print("No latest harness run found.", file=sys.stderr)
+        raise typer.Exit(1)
+    try:
+        state = store.load_state(resolved_run_id)
+    except HarnessMvpError as exc:
+        print(f"harness status failed: {exc}", file=sys.stderr)
+        raise typer.Exit(1) from exc
+    print(state.model_dump_json(indent=2))
+
+
+@harness_app.command("doctor")
+def harness_doctor_cmd(
+    chart: str = typer.Argument(..., help="Path to AgentChart YAML/JSON"),
+    workspace: str | None = typer.Option(None, "--workspace", help="Path to the ohmo workspace (defaults to ~/.ohmo)"),
+) -> None:
+    """Validate chart admission and storage writability without running steps."""
+    store = _harness_store(workspace)
+    try:
+        agent_chart = load_agent_chart(chart)
+        harness = LocalMvpHarness(chart=agent_chart, store=store)
+        harness.validate_or_raise()
+        print(json.dumps(harness.health(), indent=2))
+    except HarnessMvpError as exc:
+        print(f"harness doctor failed: {exc}", file=sys.stderr)
+        raise typer.Exit(1) from exc
