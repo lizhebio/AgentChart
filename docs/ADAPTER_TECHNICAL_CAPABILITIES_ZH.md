@@ -20,7 +20,6 @@ AgentChart YAML
 | OpenClaw | `src/agentchart/adapters/openclaw.py` | controller/platform runtime adapter |
 | Claude Code | `src/agentchart/adapters/claude_code.py` | coding-agent runtime definition adapter |
 | Codex | `src/agentchart/adapters/codex.py` | repository-workflow agent adapter |
-| open-webui | `src/agentchart/adapters/open_webui.py` | chat/tool/memory resource adapter |
 
 这些 adapter 目前都是 **compile-first**：先把 AgentChart 编译成稳定、可测试的契约，不在 adapter 层贸然执行外部 runtime。
 
@@ -33,7 +32,6 @@ AgentChart YAML
 | OpenClaw | `openclaw` | OpenClaw-style agent config | 最接近完整 controller/platform runtime | 平台语义多，不能过度压平 |
 | Claude Code | `claude-code` | Claude Code-style AgentDefinition | 强工具/MCP/权限/sidechain 语义 | prompt order、permission precedence 必须谨慎保留 |
 | Codex | `codex` | Codex-oriented repo run config | repo 知识、评审、测试、修复循环强 | 公开 runtime surface 有限，宜作为 workflow adapter |
-| open-webui | `open-webui` | resource provider config | 适合作为 chat/tool/memory 资源提供方 | 不应伪装成完整 autonomous harness |
 
 ## DeepAgents Adapter
 
@@ -189,48 +187,34 @@ AgentChart 的适配策略：
 - 把 AgentChart 用于软件工程任务。
 - 强调“跑测试、读 repo、修 bug、复核结果”的 agent workflow。
 
-## open-webui Adapter
-
-**定位：** chat/tool/memory resource adapter。
-
-open-webui 不应被当成第一 autonomous harness runtime。它更像 chat、tool、function、memory、UI 资源平台。
-
-从 harness 角度看，open-webui 的特点是：
-
-| 能力 | 特点 |
-|---|---|
-| Chat surface | 强 |
-| Tool/function provider | 中等偏强 |
-| Memory/resource | 中等 |
-| Controller | 弱，不适合作为长程 autonomous controller |
-| Adapter 策略 | 资源接入，而不是完整 agent runtime |
-
-AgentChart 的适配策略：
-
-- 编译成 `OpenWebUIResourceSpec`。
-- 表达 base_url、model、chat prompt、functions、tools、memory、auth。
-- 让 AgentChart harness/controller 继续负责 run lifecycle。
-
-适合场景：
-
-- open-webui 作为 chat/model/function/memory provider。
-- AgentChart 需要调用已有 open-webui 资源，但不把它当完整 harness。
-
 ## Harness 视角的统一判断
 
 不同 adapter 的核心差异不是“谁更聪明”，而是它们提供的 harness surface 不同。
 
-| 判断维度 | DeepAgents | Hermes | OpenClaw | Claude Code | Codex | open-webui |
-|---|---|---|---|---|---|---|
-| Library composability | 高 | 中 | 中 | 中 | 中 | 低 |
-| Product readiness | 中 | 高 | 高 | 高 | 高 | 高 |
-| Controller completeness | 中 | 中 | 高 | 高 | 中 | 低 |
-| Tool semantics | 高 | 高 | 高 | 高 | 高 | 中 |
-| Permission semantics | 中 | 中 | 高 | 高 | 高 | 中 |
-| Memory/skills | 高 | 高 | 中 | 高 | 中 | 中 |
-| Channel integration | 低 | 高 | 高 | 中 | 低 | 高 |
-| Observability | 中 | 中 | 高 | 高 | 高 | 中 |
-| Adapter risk | 中 | 中 | 高 | 高 | 中 | 低 |
+| 判断维度 | DeepAgents | Hermes | OpenClaw | Claude Code | Codex |
+|---|---|---|---|---|---|
+| Library composability | 高 | 中 | 中 | 中 | 中 |
+| Product readiness | 中 | 高 | 高 | 高 | 高 |
+| Controller completeness | 中 | 中 | 高 | 高 | 中 |
+| Tool semantics | 高 | 高 | 高 | 高 | 高 |
+| Permission semantics | 中 | 中 | 高 | 高 | 高 |
+| Memory/skills | 高 | 高 | 中 | 高 | 中 |
+| Channel integration | 低 | 高 | 高 | 中 | 低 |
+| Observability | 中 | 中 | 高 | 高 | 高 |
+| Adapter risk | 中 | 中 | 高 | 高 | 中 |
+
+## 非智能体平台：open-webui
+
+open-webui 不属于当前 AgentChart 的 agent runtime adapter 范围。
+
+它更适合被归类为：
+
+- chat UI。
+- model gateway。
+- tool/function hosting platform。
+- memory/resource provider。
+
+因此工程中不保留 open-webui adapter。后续如果需要接入 open-webui，应以资源连接器或 provider integration 的方式设计，而不是把它列入 agent adapter。
 
 ## 当前实现边界
 
@@ -249,4 +233,3 @@ AgentChart 的适配策略：
 3. 增加 `run --dry-run`，写入 AgentChart controller trace，但不调用模型。
 4. 增加真实 `run`，把外部 runtime events 归一化到 AgentChart event protocol。
 5. 做 run-level evaluation：final answer、tool calls、permission decisions、trace、resume、cost、safety。
-

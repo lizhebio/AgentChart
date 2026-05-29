@@ -56,4 +56,4 @@ evaluation.
 | 2 | Add one library adapter | DeepAgents adapter, because its graph creation surface is clean |
 | 3 | Add one product runtime adapter | OpenClaw adapter, because it has the richest controller/runtime config |
 | 4 | Add high-value closed runtime adapter | Claude Code adapter, preserving sidechain, permission, and MCP semantics |
-| 5 | Add platform resource adapter | open-webui as tool/function/chat/memory provider |
+| 5 | Add platform resource integration if needed | open-webui as tool/function/chat/memory provider, not an agent adapter |

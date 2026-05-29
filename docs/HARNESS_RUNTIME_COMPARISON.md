@@ -113,7 +113,7 @@ heartbeat, subagent, and event-stream fields under `extensions.openclaw`.
 | OpenClaw | `src/agentchart/adapters/openclaw.py` | Compile to OpenClaw-style platform config |
 | Claude Code | `src/agentchart/adapters/claude_code.py` | Compile to Claude Code-style agent definition |
 | Codex | `src/agentchart/adapters/codex.py` | Compile to repository-workflow run config |
-| open-webui | `src/agentchart/adapters/open_webui.py` | Compile to chat/tool/memory resource config |
+| open-webui | Not implemented as an agent adapter | Treat as chat/tool/memory resource platform, not an agent runtime |
 
 ## Decision
 
@@ -122,5 +122,5 @@ heartbeat, subagent, and event-stream fields under `extensions.openclaw`.
    lifecycle, events, and permission behavior can be normalized safely.
 3. Add `doctor`, `compile`, `dry-run`, and `run` CLI surfaces around each
    adapter in that order.
-4. Treat open-webui as a resource provider or chat adapter, not as the first
-   autonomous harness runtime.
+4. Keep open-webui out of the agent adapter implementation path; model it later
+   only as a resource/provider integration if needed.
