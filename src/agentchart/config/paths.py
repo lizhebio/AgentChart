@@ -17,10 +17,9 @@ def get_config_dir() -> Path:
 
     Resolution order:
     1. AGENTCHART_CONFIG_DIR environment variable
-    2. OPENHARNESS_CONFIG_DIR environment variable (compatibility)
-    3. ~/.agentchart/
+    2. ~/.agentchart/
     """
-    env_dir = os.environ.get("AGENTCHART_CONFIG_DIR") or os.environ.get("OPENHARNESS_CONFIG_DIR")
+    env_dir = os.environ.get("AGENTCHART_CONFIG_DIR")
     if env_dir:
         config_dir = Path(env_dir)
     else:
@@ -40,10 +39,9 @@ def get_data_dir() -> Path:
 
     Resolution order:
     1. AGENTCHART_DATA_DIR environment variable
-    2. OPENHARNESS_DATA_DIR environment variable (compatibility)
-    3. ~/.agentchart/data/
+    2. ~/.agentchart/data/
     """
-    env_dir = os.environ.get("AGENTCHART_DATA_DIR") or os.environ.get("OPENHARNESS_DATA_DIR")
+    env_dir = os.environ.get("AGENTCHART_DATA_DIR")
     if env_dir:
         data_dir = Path(env_dir)
     else:
@@ -58,10 +56,9 @@ def get_logs_dir() -> Path:
 
     Resolution order:
     1. AGENTCHART_LOGS_DIR environment variable
-    2. OPENHARNESS_LOGS_DIR environment variable (compatibility)
-    3. ~/.agentchart/logs/
+    2. ~/.agentchart/logs/
     """
-    env_dir = os.environ.get("AGENTCHART_LOGS_DIR") or os.environ.get("OPENHARNESS_LOGS_DIR")
+    env_dir = os.environ.get("AGENTCHART_LOGS_DIR")
     if env_dir:
         logs_dir = Path(env_dir)
     else:

@@ -603,27 +603,19 @@ class Settings(BaseModel):
 def _apply_env_overrides(settings: Settings) -> Settings:
     """Apply supported environment variable overrides over loaded settings."""
     updates: dict[str, Any] = {}
-    model = (
-        os.environ.get("ANTHROPIC_MODEL")
-        or os.environ.get("AGENTCHART_MODEL")
-        or os.environ.get("OPENHARNESS_MODEL")
-    )
+    model = os.environ.get("ANTHROPIC_MODEL") or os.environ.get("AGENTCHART_MODEL")
     if model:
         updates["model"] = model
 
-    base_url = (
-        os.environ.get("ANTHROPIC_BASE_URL")
-        or os.environ.get("AGENTCHART_BASE_URL")
-        or os.environ.get("OPENHARNESS_BASE_URL")
-    )
+    base_url = os.environ.get("ANTHROPIC_BASE_URL") or os.environ.get("AGENTCHART_BASE_URL")
     if base_url:
         updates["base_url"] = base_url
 
-    max_tokens = os.environ.get("AGENTCHART_MAX_TOKENS") or os.environ.get("OPENHARNESS_MAX_TOKENS")
+    max_tokens = os.environ.get("AGENTCHART_MAX_TOKENS")
     if max_tokens:
         updates["max_tokens"] = int(max_tokens)
 
-    max_turns = os.environ.get("AGENTCHART_MAX_TURNS") or os.environ.get("OPENHARNESS_MAX_TURNS")
+    max_turns = os.environ.get("AGENTCHART_MAX_TURNS")
     if max_turns:
         updates["max_turns"] = int(max_turns)
 
@@ -631,20 +623,16 @@ def _apply_env_overrides(settings: Settings) -> Settings:
     if api_key:
         updates["api_key"] = api_key
 
-    api_format = os.environ.get("AGENTCHART_API_FORMAT") or os.environ.get("OPENHARNESS_API_FORMAT")
+    api_format = os.environ.get("AGENTCHART_API_FORMAT")
     if api_format:
         updates["api_format"] = api_format
 
-    provider = os.environ.get("AGENTCHART_PROVIDER") or os.environ.get("OPENHARNESS_PROVIDER")
+    provider = os.environ.get("AGENTCHART_PROVIDER")
     if provider:
         updates["provider"] = provider
 
-    sandbox_enabled = os.environ.get("AGENTCHART_SANDBOX_ENABLED") or os.environ.get(
-        "OPENHARNESS_SANDBOX_ENABLED"
-    )
-    sandbox_fail = os.environ.get("AGENTCHART_SANDBOX_FAIL_IF_UNAVAILABLE") or os.environ.get(
-        "OPENHARNESS_SANDBOX_FAIL_IF_UNAVAILABLE"
-    )
+    sandbox_enabled = os.environ.get("AGENTCHART_SANDBOX_ENABLED")
+    sandbox_fail = os.environ.get("AGENTCHART_SANDBOX_FAIL_IF_UNAVAILABLE")
     sandbox_updates: dict[str, Any] = {}
     if sandbox_enabled is not None:
         sandbox_updates["enabled"] = _parse_bool_env(sandbox_enabled)

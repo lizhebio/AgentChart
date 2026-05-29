@@ -28,15 +28,6 @@ def test_get_config_dir_env_override(tmp_path: Path, monkeypatch):
     assert config_dir.is_dir()
 
 
-def test_get_config_dir_legacy_env_override(tmp_path: Path, monkeypatch):
-    custom = tmp_path / "legacy_config"
-    monkeypatch.delenv("AGENTCHART_CONFIG_DIR", raising=False)
-    monkeypatch.setenv("OPENHARNESS_CONFIG_DIR", str(custom))
-    config_dir = get_config_dir()
-    assert config_dir == custom
-    assert config_dir.is_dir()
-
-
 def test_get_config_file_path(tmp_path: Path, monkeypatch):
     monkeypatch.delenv("AGENTCHART_CONFIG_DIR", raising=False)
     monkeypatch.setattr(Path, "home", classmethod(lambda cls: tmp_path))

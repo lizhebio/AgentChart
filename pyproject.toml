@@ -44,12 +44,10 @@ dev = [
 [project.scripts]
 agentchart = "agentchart.cli:app"
 ac = "agentchart.cli:app"
-oh = "agentchart.cli:app"
-openharness = "agentchart.cli:app"
 ohmo = "ohmo.cli:app"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/agentchart", "src/openharness", "ohmo"]
+packages = ["src/agentchart", "ohmo"]
 
 [tool.hatch.build.targets.wheel.force-include]
 "frontend/terminal/package.json" = "agentchart/_frontend/package.json"

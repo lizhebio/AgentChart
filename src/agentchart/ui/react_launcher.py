@@ -154,7 +154,6 @@ async def launch_react_tui(
         }
     )
     env["AGENTCHART_FRONTEND_CONFIG"] = frontend_config
-    env["OPENHARNESS_FRONTEND_CONFIG"] = frontend_config
     tsx_cmd = _resolve_tsx(frontend_dir)
     process = await asyncio.create_subprocess_exec(
         *tsx_cmd,
