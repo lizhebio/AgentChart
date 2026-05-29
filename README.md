@@ -357,6 +357,7 @@ uv build --wheel
 | Document | Purpose |
 |---|---|
 | [`docs/HARNESS_MVP_HIGH_AVAILABILITY.md`](docs/HARNESS_MVP_HIGH_AVAILABILITY.md) | Durable local runner design |
+| [`docs/AGENTCHART_HARNESS_AGENT_RELATIONSHIP_ZH.md`](docs/AGENTCHART_HARNESS_AGENT_RELATIONSHIP_ZH.md) | Chinese explanation of AgentChart, harness, and full agents such as Hermes |
 | [`docs/HARNESS_RUNTIME_COMPARISON.md`](docs/HARNESS_RUNTIME_COMPARISON.md) | AgentChart, DeepAgents, OpenClaw, Claude Code, Codex comparison |
 | [`docs/HARNESS_TAXONOMY_MATRIX.md`](docs/HARNESS_TAXONOMY_MATRIX.md) | Capability taxonomy for harness runtimes |
 | [`docs/SHOWCASE.md`](docs/SHOWCASE.md) | Practical usage examples |
