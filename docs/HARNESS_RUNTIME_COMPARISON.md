@@ -100,13 +100,27 @@ Adapter guidance: keep OpenClaw-specific fields under `extensions.openclaw`.
 Do not force channel binding, heartbeat, ACP, embedded runtime, and sandbox into
 portable fields.
 
+Initial implementation: `src/agentchart/adapters/openclaw.py` compiles an
+AgentChart into an OpenClaw-style config that preserves channels, sandbox,
+heartbeat, subagent, and event-stream fields under `extensions.openclaw`.
+
+## Adapter Implementation Status
+
+| Adapter | File | Status |
+|---|---|---|
+| DeepAgents | `src/agentchart/adapters/deepagents.py` | Compile contract plus optional runtime builder |
+| Hermes | `src/agentchart/adapters/hermes.py` | Compile to Hermes CLI/Python invocation |
+| OpenClaw | `src/agentchart/adapters/openclaw.py` | Compile to OpenClaw-style platform config |
+| Claude Code | `src/agentchart/adapters/claude_code.py` | Compile to Claude Code-style agent definition |
+| Codex | `src/agentchart/adapters/codex.py` | Compile to repository-workflow run config |
+| open-webui | `src/agentchart/adapters/open_webui.py` | Compile to chat/tool/memory resource config |
+
 ## Decision
 
 1. Build the AgentChart schema and controller substrate locally.
-2. Add DeepAgents adapter first.
-3. Add OpenClaw adapter second.
-4. Treat Claude Code as a high-value but delicate adapter.
-5. Treat Codex as harness design guidance unless more public integration surface
-   becomes available.
-6. Treat open-webui as a resource provider or chat adapter, not as the first
+2. Keep adapter implementations compile-first until each runtime's real
+   lifecycle, events, and permission behavior can be normalized safely.
+3. Add `doctor`, `compile`, `dry-run`, and `run` CLI surfaces around each
+   adapter in that order.
+4. Treat open-webui as a resource provider or chat adapter, not as the first
    autonomous harness runtime.

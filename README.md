@@ -357,6 +357,7 @@ uv build --wheel
 
 | Document | Purpose |
 |---|---|
+| [`docs/ADAPTER_TECHNICAL_CAPABILITIES_ZH.md`](docs/ADAPTER_TECHNICAL_CAPABILITIES_ZH.md) | Chinese harness-view comparison of AgentChart runtime adapters |
 | [`docs/HARNESS_MVP_HIGH_AVAILABILITY.md`](docs/HARNESS_MVP_HIGH_AVAILABILITY.md) | Durable local runner design |
 | [`docs/AGENTCHART_HARNESS_AGENT_RELATIONSHIP_ZH.md`](docs/AGENTCHART_HARNESS_AGENT_RELATIONSHIP_ZH.md) | Chinese explanation of AgentChart, harness, and full agents such as Hermes |
 | [`docs/DEEPAGENTS_ADAPTER.md`](docs/DEEPAGENTS_ADAPTER.md) | First external runtime adapter for compiling AgentCharts to DeepAgents |
