@@ -80,6 +80,11 @@ Adapter guidance: let AgentChart compile to `create_deep_agent(...)`, then let
 the AgentChart controller own run state, normalized events, policy admission,
 and deployment metadata.
 
+Initial implementation: `src/agentchart/adapters/deepagents.py` compiles an
+AgentChart into a testable `create_deep_agent` argument bundle and lazily imports
+DeepAgents only when building the runnable. This keeps the core package usable
+without requiring the external runtime dependency.
+
 ### OpenClaw
 
 OpenClaw is the strongest local evidence for a full controller-style runtime:

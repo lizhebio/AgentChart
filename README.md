@@ -64,6 +64,7 @@ flowchart TB
 | Path | Role |
 |---|---|
 | `src/agentchart/cli.py` | Primary CLI entry point for `agentchart` and `ac` |
+| `src/agentchart/adapters/` | Runtime adapters that compile AgentCharts into external agent runtimes |
 | `src/agentchart/engine/` | Streaming agent loop and query execution |
 | `src/agentchart/tools/` | Tool schemas, execution boundaries, and tool registry |
 | `src/agentchart/permissions/` | Permission modes and command/path admission |
@@ -358,6 +359,7 @@ uv build --wheel
 |---|---|
 | [`docs/HARNESS_MVP_HIGH_AVAILABILITY.md`](docs/HARNESS_MVP_HIGH_AVAILABILITY.md) | Durable local runner design |
 | [`docs/AGENTCHART_HARNESS_AGENT_RELATIONSHIP_ZH.md`](docs/AGENTCHART_HARNESS_AGENT_RELATIONSHIP_ZH.md) | Chinese explanation of AgentChart, harness, and full agents such as Hermes |
+| [`docs/DEEPAGENTS_ADAPTER.md`](docs/DEEPAGENTS_ADAPTER.md) | First external runtime adapter for compiling AgentCharts to DeepAgents |
 | [`docs/HARNESS_RUNTIME_COMPARISON.md`](docs/HARNESS_RUNTIME_COMPARISON.md) | AgentChart, DeepAgents, OpenClaw, Claude Code, Codex comparison |
 | [`docs/HARNESS_TAXONOMY_MATRIX.md`](docs/HARNESS_TAXONOMY_MATRIX.md) | Capability taxonomy for harness runtimes |
 | [`docs/SHOWCASE.md`](docs/SHOWCASE.md) | Practical usage examples |
