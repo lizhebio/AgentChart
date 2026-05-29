@@ -1,4 +1,4 @@
-"""Tests for openharness.prompts.environment."""
+"""Tests for agentchart.prompts.environment."""
 
 from __future__ import annotations
 
@@ -6,7 +6,7 @@ import os
 import subprocess
 from pathlib import Path
 
-from openharness.prompts.environment import (
+from agentchart.prompts.environment import (
     EnvironmentInfo,
     detect_git_info,
     detect_os,
@@ -68,7 +68,7 @@ def test_detect_git_info_uses_devnull_for_git_subprocess(monkeypatch):
             return _Completed(0, "true\n")
         return _Completed(0, "main\n")
 
-    monkeypatch.setattr("openharness.prompts.environment.subprocess.run", _fake_run)
+    monkeypatch.setattr("agentchart.prompts.environment.subprocess.run", _fake_run)
 
     is_git, branch = detect_git_info("/tmp/project")
 

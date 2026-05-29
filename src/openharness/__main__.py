@@ -1,6 +1,6 @@
-"""Entry point for `python -m openharness`."""
+"""Compatibility entry point for ``python -m openharness``."""
 
-from openharness.cli import app
+from agentchart.cli import app
 
 if __name__ == "__main__":
     app()

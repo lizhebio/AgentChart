@@ -13,9 +13,11 @@ import {useBackendSession} from './hooks/useBackendSession.js';
 import {ThemeProvider, useTheme} from './theme/ThemeContext.js';
 import type {FrontendConfig} from './types.js';
 
-const rawReturnSubmit = process.env.OPENHARNESS_FRONTEND_RAW_RETURN === '1';
+const rawReturnSubmit =
+	process.env.AGENTCHART_FRONTEND_RAW_RETURN === '1' ||
+	process.env.OPENHARNESS_FRONTEND_RAW_RETURN === '1';
 const scriptedSteps = (() => {
-	const raw = process.env.OPENHARNESS_FRONTEND_SCRIPT;
+	const raw = process.env.AGENTCHART_FRONTEND_SCRIPT ?? process.env.OPENHARNESS_FRONTEND_SCRIPT;
 	if (!raw) {
 		return [] as string[];
 	}

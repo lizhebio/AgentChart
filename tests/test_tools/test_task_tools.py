@@ -7,18 +7,18 @@ from pathlib import Path
 
 import pytest
 
-from openharness.tasks import get_task_manager
-from openharness.tools.agent_tool import AgentTool, AgentToolInput
-from openharness.tools.base import ToolExecutionContext
-from openharness.tools.task_create_tool import TaskCreateTool, TaskCreateToolInput
-from openharness.tools.task_output_tool import TaskOutputTool, TaskOutputToolInput
-from openharness.tools.task_update_tool import TaskUpdateTool, TaskUpdateToolInput
-from openharness.tools.team_create_tool import TeamCreateTool, TeamCreateToolInput
+from agentchart.tasks import get_task_manager
+from agentchart.tools.agent_tool import AgentTool, AgentToolInput
+from agentchart.tools.base import ToolExecutionContext
+from agentchart.tools.task_create_tool import TaskCreateTool, TaskCreateToolInput
+from agentchart.tools.task_output_tool import TaskOutputTool, TaskOutputToolInput
+from agentchart.tools.task_update_tool import TaskUpdateTool, TaskUpdateToolInput
+from agentchart.tools.team_create_tool import TeamCreateTool, TeamCreateToolInput
 
 
 @pytest.mark.asyncio
 async def test_task_create_and_output_tool(tmp_path: Path, monkeypatch):
-    monkeypatch.setenv("OPENHARNESS_DATA_DIR", str(tmp_path / "data"))
+    monkeypatch.setenv("AGENTCHART_DATA_DIR", str(tmp_path / "data"))
     context = ToolExecutionContext(cwd=tmp_path)
 
     create_result = await TaskCreateTool().execute(
@@ -56,7 +56,7 @@ async def test_team_create_tool(tmp_path: Path):
 
 @pytest.mark.asyncio
 async def test_task_update_tool_updates_metadata(tmp_path: Path, monkeypatch):
-    monkeypatch.setenv("OPENHARNESS_DATA_DIR", str(tmp_path / "data"))
+    monkeypatch.setenv("AGENTCHART_DATA_DIR", str(tmp_path / "data"))
     context = ToolExecutionContext(cwd=tmp_path)
 
     create_result = await TaskCreateTool().execute(
@@ -89,7 +89,7 @@ async def test_task_update_tool_updates_metadata(tmp_path: Path, monkeypatch):
 
 @pytest.mark.asyncio
 async def test_agent_tool_supports_remote_and_teammate_modes(tmp_path: Path, monkeypatch):
-    monkeypatch.setenv("OPENHARNESS_DATA_DIR", str(tmp_path / "data"))
+    monkeypatch.setenv("AGENTCHART_DATA_DIR", str(tmp_path / "data"))
     context = ToolExecutionContext(cwd=tmp_path)
 
     for i, mode in enumerate(("remote_agent", "in_process_teammate")):

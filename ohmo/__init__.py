@@ -1,4 +1,4 @@
-"""ohmo personal agent app built on top of OpenHarness."""
+"""ohmo personal agent app built on top of AgentChart."""
 
 __all__ = ["__version__"]
 

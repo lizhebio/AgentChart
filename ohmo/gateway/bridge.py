@@ -5,8 +5,8 @@ from __future__ import annotations
 import asyncio
 import logging
 
-from openharness.channels.bus.events import OutboundMessage
-from openharness.channels.bus.queue import MessageBus
+from agentchart.channels.bus.events import OutboundMessage
+from agentchart.channels.bus.queue import MessageBus
 
 from ohmo.gateway.router import session_key_for_message
 from ohmo.gateway.runtime import OhmoSessionRuntimePool

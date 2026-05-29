@@ -30,31 +30,31 @@ controller testable:
 Generate a sample chart:
 
 ```bash
-uv run ohmo harness sample --output agentchart.mvp.yaml --cwd .
+uv run agentchartmo harness sample --output agentchart.mvp.yaml --cwd .
 ```
 
 Validate chart and storage:
 
 ```bash
-uv run ohmo harness doctor agentchart.mvp.yaml
+uv run agentchartmo harness doctor agentchart.mvp.yaml
 ```
 
 Run it:
 
 ```bash
-uv run ohmo harness run agentchart.mvp.yaml
+uv run agentchartmo harness run agentchart.mvp.yaml
 ```
 
 Inspect latest status:
 
 ```bash
-uv run ohmo harness status latest
+uv run agentchartmo harness status latest
 ```
 
 Resume an interrupted or failed run:
 
 ```bash
-uv run ohmo harness resume latest agentchart.mvp.yaml
+uv run agentchartmo harness resume latest agentchart.mvp.yaml
 ```
 
 ## AgentChart Shape
@@ -90,17 +90,17 @@ spec:
       - id: write-proof
         tool: write_file
         args:
-          path: .openharness-mvp/proof.txt
-          content: "OpenHarness MVP harness is alive.\n"
+          path: .agentchart-mvp/proof.txt
+          content: "AgentChart MVP harness is alive.\n"
         mutates: true
       - id: read-proof
         tool: read_file
         args:
-          path: .openharness-mvp/proof.txt
+          path: .agentchart-mvp/proof.txt
       - id: shell-proof
         tool: shell
         args:
-          command: test -s .openharness-mvp/proof.txt
+          command: test -s .agentchart-mvp/proof.txt
 ```
 
 ## High-Availability Properties

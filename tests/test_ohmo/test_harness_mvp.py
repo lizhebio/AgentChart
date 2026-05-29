@@ -27,7 +27,7 @@ def test_mvp_harness_runs_and_persists_trace(tmp_path: Path) -> None:
 
     assert state.status == "completed"
     assert state.completed_steps == ["write-proof", "read-proof", "shell-proof"]
-    assert (workspace / ".openharness-mvp" / "proof.txt").read_text(encoding="utf-8")
+    assert (workspace / ".agentchart-mvp" / "proof.txt").read_text(encoding="utf-8")
     assert store.latest_run_id() == state.run_id
 
     events = (store.run_dir(state.run_id) / "events.jsonl").read_text(encoding="utf-8").splitlines()

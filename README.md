@@ -1,8 +1,8 @@
-<h1 align="center"><img src="assets/logo.png" alt="OpenHarness" width="64" style="vertical-align: middle;">&nbsp; <code>oh</code> — OpenHarness: Open Agent Harness</h1>
+<h1 align="center"><img src="assets/logo.png" alt="AgentChart" width="64" style="vertical-align: middle;">&nbsp; <code>ac</code> — AgentChart</h1>
 
-**OpenHarness** delivers core lightweight agent infrastructure: tool-use, skills, memory, and multi-agent coordination.
+**AgentChart** packages agents declaratively and runs them through inspectable harness infrastructure: tool-use, skills, memory, policy, durable state, and multi-agent coordination.
 
-**Join the community**: contribute **Harness** for open agent development.
+**Join the community**: build portable AgentCharts and open harness adapters for agent systems.
 
 <p align="center">
   <a href="#-quick-start"><img src="https://img.shields.io/badge/Quick_Start-5_min-blue?style=for-the-badge" alt="Quick Start"></a>
@@ -18,17 +18,15 @@
   <img src="https://img.shields.io/badge/pytest-114_pass-brightgreen" alt="Pytest">
   <img src="https://img.shields.io/badge/E2E-6_suites-orange" alt="E2E">
   <img src="https://img.shields.io/badge/output-text_|_json_|_stream--json-blueviolet" alt="Output">
-  <a href="https://github.com/HKUDS/OpenHarness/actions/workflows/ci.yml"><img src="https://github.com/HKUDS/OpenHarness/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
-  <a href="https://github.com/HKUDS/.github/blob/main/profile/README.md"><img src="https://img.shields.io/badge/Feishu-Group-E9DBFC?style=flat&logo=feishu&logoColor=white" alt="Feishu"></a>
-  <a href="https://github.com/HKUDS/.github/blob/main/profile/README.md"><img src="https://img.shields.io/badge/WeChat-Group-C5EAB4?style=flat&logo=wechat&logoColor=white" alt="WeChat"></a>
+  <a href="https://github.com/lizhebio/AgentChart/actions/workflows/ci.yml"><img src="https://github.com/lizhebio/AgentChart/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
 </p>
 
-One Command (**oh**) to Launch **OpenHarness** and Unlock All Agent Harnesses. 
+One Command (**ac**) to Launch **AgentChart** and Unlock All Agent Harnesses. 
 
-Supports CLI agent integration including OpenClaw, nanobot, Cursor, and more.
+Supports CLI agent integration experiments across AgentChart MVP, OpenClaw, DeepAgents, Claude-style plugins, and more.
 
 <p align="center">
-  <img src="assets/cli-typing.gif" alt="OpenHarness Terminal Demo" width="800">
+  <img src="assets/cli-typing.gif" alt="AgentChart Terminal Demo" width="800">
 </p>
 
 <p align="center">
@@ -36,7 +34,7 @@ Supports CLI agent integration including OpenClaw, nanobot, Cursor, and more.
 </p>
 
 ---
-## ✨ OpenHarness's Key Harness Features
+## ✨ AgentChart's Key Harness Features
 
 <table align="center" width="100%">
 <tr>
@@ -117,7 +115,7 @@ Supports CLI agent integration including OpenClaw, nanobot, Cursor, and more.
 <p align="center"><strong>• Subagent Spawning & Delegation</strong></p>
 <p align="center"><strong>• Team Registry & Task Management</strong></p>
 <p align="center"><strong>• Background Task Lifecycle</strong></p>
-<p align="center"><strong>• <a href="https://github.com/HKUDS/ClawTeam">ClawTeam</a> Integration (Roadmap)</strong></p>
+<p align="center"><strong>• AgentChart Adapter Roadmap</strong></p>
 
 </td>
 </tr>
@@ -133,7 +131,7 @@ An **Agent Harness** is the complete infrastructure that wraps around an LLM to 
   <img src="assets/harness-equation.png" alt="Harness = Tools + Knowledge + Observation + Action + Permissions" width="700">
 </p>
 
-OpenHarness is an open-source Python implementation designed for **researchers, builders, and the community**:
+AgentChart is an open-source Python implementation designed for **researchers, builders, and the community**:
 
 - **Understand** how production AI agents work under the hood
 - **Experiment** with cutting-edge tools, skills, and agent coordination patterns
@@ -144,7 +142,7 @@ OpenHarness is an open-source Python implementation designed for **researchers, 
 
 ## 📰 What's New
 
-- **2026-04-01** 🎨 **v0.1.0** — Initial **OpenHarness** open-source release featuring complete Harness architecture: 
+- **2026-04-01** 🎨 **v0.1.0** — Initial **AgentChart** open-source release featuring complete Harness architecture: 
 
 <p align="center">
   <strong>Start here:</strong>
@@ -164,7 +162,7 @@ OpenHarness is an open-source Python implementation designed for **researchers, 
 The fastest way to get started — a single command handles OS detection, dependency checks, and installation:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/HKUDS/OpenHarness/main/scripts/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/lizhebio/AgentChart/main/scripts/install.sh | bash
 ```
 
 **Options:**
@@ -176,10 +174,10 @@ curl -fsSL https://raw.githubusercontent.com/HKUDS/OpenHarness/main/scripts/inst
 
 ```bash
 # Install from source (for contributors / latest code)
-curl -fsSL https://raw.githubusercontent.com/HKUDS/OpenHarness/main/scripts/install.sh | bash -s -- --from-source
+curl -fsSL https://raw.githubusercontent.com/lizhebio/AgentChart/main/scripts/install.sh | bash -s -- --from-source
 
 # Install with IM channel support
-curl -fsSL https://raw.githubusercontent.com/HKUDS/OpenHarness/main/scripts/install.sh | bash -s -- --with-channels
+curl -fsSL https://raw.githubusercontent.com/lizhebio/AgentChart/main/scripts/install.sh | bash -s -- --with-channels
 
 # Or run locally after cloning
 bash scripts/install.sh --from-source --with-channels
@@ -188,10 +186,10 @@ bash scripts/install.sh --from-source --with-channels
 The script will:
 1. Detect your OS (Linux / macOS / WSL)
 2. Verify Python ≥ 3.10 and Node.js ≥ 18
-3. Install OpenHarness via `pip`
+3. Install AgentChart via `pip`
 4. Set up the React TUI (`npm install`) if Node.js is available
-5. Create `~/.openharness/` config directory
-6. Confirm with `oh --version`
+5. Create `~/.agentchart/` config directory
+6. Confirm with `ac --version`
 
 ### Prerequisites
 
@@ -202,15 +200,15 @@ The script will:
 ### One-Command Demo
 
 ```bash
-ANTHROPIC_API_KEY=your_key uv run oh -p "Inspect this repository and list the top 3 refactors"
+ANTHROPIC_API_KEY=your_key uv run agentchart -p "Inspect this repository and list the top 3 refactors"
 ```
 
 ### Install & Run
 
 ```bash
 # Clone and install
-git clone https://github.com/HKUDS/OpenHarness.git
-cd OpenHarness
+git clone https://github.com/lizhebio/AgentChart.git
+cd AgentChart
 uv sync --extra dev
 
 # Example: use Kimi as the backend
@@ -219,30 +217,30 @@ export ANTHROPIC_API_KEY=your_kimi_api_key
 export ANTHROPIC_MODEL=kimi-k2.5
 
 # Launch
-oh                    # if venv is activated
-uv run oh             # without activating venv
+ac                    # if venv is activated
+uv run agentchart             # without activating venv
 ```
 
 <p align="center">
-  <img src="assets/landing.png" alt="OpenHarness Landing Screen" width="700">
+  <img src="assets/landing.png" alt="AgentChart Landing Screen" width="700">
 </p>
 
 ### Non-Interactive Mode (Pipes & Scripts)
 
 ```bash
 # Single prompt → stdout
-oh -p "Explain this codebase"
+ac -p "Explain this codebase"
 
 # JSON output for programmatic use
-oh -p "List all functions in main.py" --output-format json
+ac -p "List all functions in main.py" --output-format json
 
 # Stream JSON events in real-time
-oh -p "Fix the bug" --output-format stream-json
+ac -p "Fix the bug" --output-format stream-json
 ```
 
 ## 🔌 Provider Compatibility
 
-OpenHarness supports three API formats: **Anthropic** (default), **OpenAI-compatible** (`--api-format openai`), and **GitHub Copilot** (`--api-format copilot`). The OpenAI format covers a wide range of providers.
+AgentChart supports three API formats: **Anthropic** (default), **OpenAI-compatible** (`--api-format openai`), and **GitHub Copilot** (`--api-format copilot`). The OpenAI format covers a wide range of providers.
 
 ### Anthropic Format (default)
 
@@ -270,17 +268,17 @@ Any provider implementing the OpenAI `/v1/chat/completions` API works out of the
 
 ```bash
 # Example: use DashScope
-uv run oh --api-format openai \
+uv run agentchart --api-format openai \
   --base-url "https://dashscope.aliyuncs.com/compatible-mode/v1" \
   --api-key "sk-xxx" \
   --model "qwen3.5-flash"
 
 # Or via environment variables
-export OPENHARNESS_API_FORMAT=openai
+export AGENTCHART_API_FORMAT=openai
 export OPENAI_API_KEY=sk-xxx
-export OPENHARNESS_BASE_URL=https://dashscope.aliyuncs.com/compatible-mode/v1
-export OPENHARNESS_MODEL=qwen3.5-flash
-uv run oh
+export AGENTCHART_BASE_URL=https://dashscope.aliyuncs.com/compatible-mode/v1
+export AGENTCHART_MODEL=qwen3.5-flash
+uv run agentchart
 ```
 
 ### GitHub Copilot Format (`--api-format copilot`)
@@ -289,20 +287,20 @@ Use your existing GitHub Copilot subscription as the LLM backend. Authentication
 
 ```bash
 # One-time login (opens browser for GitHub authorization)
-oh auth copilot-login
+ac auth copilot-login
 
 # Then launch with Copilot as the provider
-uv run oh --api-format copilot
+uv run agentchart --api-format copilot
 
 # Or via environment variable
-export OPENHARNESS_API_FORMAT=copilot
-uv run oh
+export AGENTCHART_API_FORMAT=copilot
+uv run agentchart
 
 # Check auth status
-oh auth status
+ac auth status
 
 # Remove stored credentials
-oh auth copilot-logout
+ac auth copilot-logout
 ```
 
 | Feature | Details |
@@ -317,10 +315,10 @@ oh auth copilot-logout
 
 ## 🏗️ Harness Architecture
 
-OpenHarness implements the core Agent Harness pattern with 10 subsystems:
+AgentChart implements the core Agent Harness pattern with 10 subsystems:
 
 ```
-openharness/
+agentchart/
   engine/          # 🧠 Agent Loop — query → stream → tool-call → loop
   tools/           # 🔧 43 Tools — file I/O, shell, search, web, MCP
   skills/          # 📚 Knowledge — on-demand skill loading (.md files)
@@ -413,7 +411,7 @@ Available Skills:
 - ... 40+ more
 ```
 
-**Compatible with [anthropics/skills](https://github.com/anthropics/skills)** — just copy `.md` files to `~/.openharness/skills/`.
+**Compatible with [anthropics/skills](https://github.com/anthropics/skills)** — just copy `.md` files to `~/.agentchart/skills/`.
 
 ### 🔌 Plugin System
 
@@ -430,17 +428,17 @@ Available Skills:
 
 ```bash
 # Manage plugins
-oh plugin list
-oh plugin install <source>
-oh plugin enable <name>
+ac plugin list
+ac plugin install <source>
+ac plugin enable <name>
 ```
 
 ### 🤝 Ecosystem Workflows
 
-OpenHarness is useful as a lightweight harness layer around Claude-style tooling conventions:
+AgentChart is useful as a lightweight harness layer around Claude-style tooling conventions:
 
 - **OpenClaw-oriented workflows** can reuse Markdown-first knowledge and command-driven collaboration patterns.
-- **Claude-style plugins and skills** stay portable because OpenHarness keeps those formats familiar.
+- **Claude-style plugins and skills** stay portable because AgentChart keeps those formats familiar.
 - **ClawTeam-style multi-agent work** maps well onto the built-in team, task, and background execution primitives.
 
 For concrete usage ideas instead of generic claims, see [`docs/SHOWCASE.md`](docs/SHOWCASE.md).
@@ -480,7 +478,7 @@ React/Ink TUI with full interactive experience:
 ### 📡 CLI
 
 ```
-oh [OPTIONS] COMMAND [ARGS]
+ac [OPTIONS] COMMAND [ARGS]
 
 Session:     -c/--continue, -r/--resume, -n/--name
 Model:       -m/--model, --effort, --max-turns
@@ -489,7 +487,7 @@ Permissions: --permission-mode, --dangerously-skip-permissions
 Context:     -s/--system-prompt, --append-system-prompt, --settings
 Advanced:    -d/--debug, --mcp-config, --bare
 
-Subcommands: oh mcp | oh plugin | oh auth
+Subcommands: ac mcp | ac plugin | ac auth
 ```
 
 ---
@@ -514,13 +512,13 @@ python scripts/test_real_skills_plugins.py  # Real plugins E2E
 
 ---
 
-## 🔧 Extending OpenHarness
+## 🔧 Extending AgentChart
 
 ### Add a Custom Tool
 
 ```python
 from pydantic import BaseModel, Field
-from openharness.tools.base import BaseTool, ToolExecutionContext, ToolResult
+from agentchart.tools.base import BaseTool, ToolExecutionContext, ToolResult
 
 class MyToolInput(BaseModel):
     query: str = Field(description="Search query")
@@ -536,7 +534,7 @@ class MyTool(BaseTool):
 
 ### Add a Custom Skill
 
-Create `~/.openharness/skills/my-skill.md`:
+Create `~/.agentchart/skills/my-skill.md`:
 
 ```markdown
 ---
@@ -557,7 +555,7 @@ Use when the user asks about [your domain].
 
 ### Add a Plugin
 
-Create `.openharness/plugins/my-plugin/.claude-plugin/plugin.json`:
+Create `.agentchart/plugins/my-plugin/.claude-plugin/plugin.json`:
 
 ```json
 {
@@ -573,7 +571,7 @@ Add commands in `commands/*.md`, hooks in `hooks/hooks.json`, agents in `agents/
 
 ## 🌍 Showcase
 
-OpenHarness is most useful when treated as a small, inspectable harness you can adapt to a real workflow:
+AgentChart is most useful when treated as a small, inspectable harness you can adapt to a real workflow:
 
 - **Repo coding assistant** for reading code, patching files, and running checks locally.
 - **Headless scripting tool** for `json` and `stream-json` output in automation flows.
@@ -587,7 +585,7 @@ See [`docs/SHOWCASE.md`](docs/SHOWCASE.md) for short, reproducible examples.
 
 ## 🤝 Contributing
 
-OpenHarness is a **community-driven research project**. We welcome contributions in:
+AgentChart is a **community-driven research project**. We welcome contributions in:
 
 | Area | Examples |
 |------|---------|
@@ -601,8 +599,8 @@ OpenHarness is a **community-driven research project**. We welcome contributions
 
 ```bash
 # Development setup
-git clone https://github.com/HKUDS/OpenHarness.git
-cd OpenHarness
+git clone https://github.com/lizhebio/AgentChart.git
+cd AgentChart
 uv sync --extra dev
 uv run pytest -q  # Verify everything works
 ```
@@ -622,24 +620,24 @@ MIT — see [LICENSE](LICENSE).
 ---
 
 <p align="center">
-  <img src="assets/logo.png" alt="OpenHarness" width="48">
+  <img src="assets/logo.png" alt="AgentChart" width="48">
   <br>
-  <strong>Oh my Harness!</strong>
+  <strong>AgentChart</strong>
   <br>
   <em>The model is the agent. The code is the harness.</em>
 </p>
 
 <div align="center">
-  <a href="https://star-history.com/#HKUDS/OpenHarness&Date">
+  <a href="https://star-history.com/#lizhebio/AgentChart&Date">
     <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=HKUDS/OpenHarness&type=Date&theme=dark" />
-      <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=HKUDS/OpenHarness&type=Date" />
-      <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=HKUDS/OpenHarness&type=Date" style="border-radius: 15px; box-shadow: 0 0 30px rgba(0, 217, 255, 0.3);" />
+      <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=lizhebio/AgentChart&type=Date&theme=dark" />
+      <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=lizhebio/AgentChart&type=Date" />
+      <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=lizhebio/AgentChart&type=Date" style="border-radius: 15px; box-shadow: 0 0 30px rgba(0, 217, 255, 0.3);" />
     </picture>
   </a>
 </div>
 
 <p align="center">
-  <em> Thanks for visiting ✨ OpenHarness!</em><br><br>
-  <img src="https://visitor-badge.laobi.icu/badge?page_id=HKUDS.OpenHarness&style=for-the-badge&color=00d4ff" alt="Views">
+  <em> Thanks for visiting ✨ AgentChart!</em><br><br>
+  <img src="https://visitor-badge.laobi.icu/badge?page_id=lizhebio.AgentChart&style=for-the-badge&color=00d4ff" alt="Views">
 </p>

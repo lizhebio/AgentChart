@@ -2,12 +2,12 @@
 
 from __future__ import annotations
 
-from openharness.utils.shell import resolve_shell_command
+from agentchart.utils.shell import resolve_shell_command
 
 
 def test_resolve_shell_command_prefers_bash_on_linux(monkeypatch):
     monkeypatch.setattr(
-        "openharness.utils.shell.shutil.which",
+        "agentchart.utils.shell.shutil.which",
         lambda name: "/usr/bin/bash" if name == "bash" else None,
     )
 
@@ -23,7 +23,7 @@ def test_resolve_shell_command_uses_powershell_on_windows(monkeypatch):
         }
         return mapping.get(name)
 
-    monkeypatch.setattr("openharness.utils.shell.shutil.which", fake_which)
+    monkeypatch.setattr("agentchart.utils.shell.shutil.which", fake_which)
 
     command = resolve_shell_command("Write-Output hi", platform_name="windows")
 

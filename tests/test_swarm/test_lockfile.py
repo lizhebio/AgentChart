@@ -7,7 +7,7 @@ from pathlib import Path
 
 import pytest
 
-from openharness.swarm import lockfile
+from agentchart.swarm import lockfile
 
 
 def test_exclusive_file_lock_creates_lock_file_on_posix(tmp_path: Path):

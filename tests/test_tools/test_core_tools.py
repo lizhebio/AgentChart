@@ -7,27 +7,27 @@ from pathlib import Path
 
 import pytest
 
-from openharness.tools.bash_tool import BashTool, BashToolInput
-from openharness.tools.base import ToolExecutionContext
-from openharness.tools.brief_tool import BriefTool, BriefToolInput
-from openharness.tools.cron_create_tool import CronCreateTool, CronCreateToolInput
-from openharness.tools.cron_delete_tool import CronDeleteTool, CronDeleteToolInput
-from openharness.tools.cron_list_tool import CronListTool, CronListToolInput
-from openharness.tools.config_tool import ConfigTool, ConfigToolInput
-from openharness.tools.enter_worktree_tool import EnterWorktreeTool, EnterWorktreeToolInput
-from openharness.tools.exit_worktree_tool import ExitWorktreeTool, ExitWorktreeToolInput
-from openharness.tools.file_edit_tool import FileEditTool, FileEditToolInput
-from openharness.tools.file_read_tool import FileReadTool, FileReadToolInput
-from openharness.tools.file_write_tool import FileWriteTool, FileWriteToolInput
-from openharness.tools.glob_tool import GlobTool, GlobToolInput
-from openharness.tools.grep_tool import GrepTool, GrepToolInput
-from openharness.tools.lsp_tool import LspTool, LspToolInput
-from openharness.tools.notebook_edit_tool import NotebookEditTool, NotebookEditToolInput
-from openharness.tools.remote_trigger_tool import RemoteTriggerTool, RemoteTriggerToolInput
-from openharness.tools.skill_tool import SkillTool, SkillToolInput
-from openharness.tools.todo_write_tool import TodoWriteTool, TodoWriteToolInput
-from openharness.tools.tool_search_tool import ToolSearchTool, ToolSearchToolInput
-from openharness.tools import create_default_tool_registry
+from agentchart.tools.bash_tool import BashTool, BashToolInput
+from agentchart.tools.base import ToolExecutionContext
+from agentchart.tools.brief_tool import BriefTool, BriefToolInput
+from agentchart.tools.cron_create_tool import CronCreateTool, CronCreateToolInput
+from agentchart.tools.cron_delete_tool import CronDeleteTool, CronDeleteToolInput
+from agentchart.tools.cron_list_tool import CronListTool, CronListToolInput
+from agentchart.tools.config_tool import ConfigTool, ConfigToolInput
+from agentchart.tools.enter_worktree_tool import EnterWorktreeTool, EnterWorktreeToolInput
+from agentchart.tools.exit_worktree_tool import ExitWorktreeTool, ExitWorktreeToolInput
+from agentchart.tools.file_edit_tool import FileEditTool, FileEditToolInput
+from agentchart.tools.file_read_tool import FileReadTool, FileReadToolInput
+from agentchart.tools.file_write_tool import FileWriteTool, FileWriteToolInput
+from agentchart.tools.glob_tool import GlobTool, GlobToolInput
+from agentchart.tools.grep_tool import GrepTool, GrepToolInput
+from agentchart.tools.lsp_tool import LspTool, LspToolInput
+from agentchart.tools.notebook_edit_tool import NotebookEditTool, NotebookEditToolInput
+from agentchart.tools.remote_trigger_tool import RemoteTriggerTool, RemoteTriggerToolInput
+from agentchart.tools.skill_tool import SkillTool, SkillToolInput
+from agentchart.tools.todo_write_tool import TodoWriteTool, TodoWriteToolInput
+from agentchart.tools.tool_search_tool import ToolSearchTool, ToolSearchToolInput
+from agentchart.tools import create_default_tool_registry
 
 
 @pytest.mark.asyncio
@@ -108,7 +108,7 @@ async def test_tool_search_and_brief_tools(tmp_path: Path):
 
 @pytest.mark.asyncio
 async def test_skill_todo_and_config_tools(tmp_path: Path, monkeypatch):
-    monkeypatch.setenv("OPENHARNESS_CONFIG_DIR", str(tmp_path / "config"))
+    monkeypatch.setenv("AGENTCHART_CONFIG_DIR", str(tmp_path / "config"))
     skills_dir = tmp_path / "config" / "skills"
     skills_dir.mkdir(parents=True)
     (skills_dir / "pytest.md").write_text("# Pytest\nHelpful pytest notes.\n", encoding="utf-8")
@@ -186,14 +186,14 @@ async def test_lsp_tool(tmp_path: Path):
 async def test_worktree_tools(tmp_path: Path):
     subprocess.run(["git", "init"], cwd=tmp_path, check=True, capture_output=True, text=True)
     subprocess.run(
-        ["git", "config", "user.email", "openharness@example.com"],
+        ["git", "config", "user.email", "agentchart@example.com"],
         cwd=tmp_path,
         check=True,
         capture_output=True,
         text=True,
     )
     subprocess.run(
-        ["git", "config", "user.name", "OpenHarness Tests"],
+        ["git", "config", "user.name", "AgentChart Tests"],
         cwd=tmp_path,
         check=True,
         capture_output=True,
@@ -227,7 +227,7 @@ async def test_worktree_tools(tmp_path: Path):
 
 @pytest.mark.asyncio
 async def test_cron_and_remote_trigger_tools(tmp_path: Path, monkeypatch):
-    monkeypatch.setenv("OPENHARNESS_DATA_DIR", str(tmp_path / "data"))
+    monkeypatch.setenv("AGENTCHART_DATA_DIR", str(tmp_path / "data"))
     context = ToolExecutionContext(cwd=tmp_path)
 
     create_result = await CronCreateTool().execute(

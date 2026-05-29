@@ -8,9 +8,9 @@ from pathlib import Path
 from typing import Any
 from uuid import uuid4
 
-from openharness.api.usage import UsageSnapshot
-from openharness.engine.messages import ConversationMessage
-from openharness.services.session_backend import SessionBackend
+from agentchart.api.usage import UsageSnapshot
+from agentchart.engine.messages import ConversationMessage
+from agentchart.services.session_backend import SessionBackend
 
 from ohmo.workspace import get_sessions_dir
 

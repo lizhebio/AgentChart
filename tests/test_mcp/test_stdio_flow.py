@@ -7,10 +7,10 @@ from pathlib import Path
 
 import pytest
 
-from openharness.mcp.client import McpClientManager
-from openharness.mcp.types import McpStdioServerConfig
-from openharness.tools import create_default_tool_registry
-from openharness.tools.base import ToolExecutionContext
+from agentchart.mcp.client import McpClientManager
+from agentchart.mcp.types import McpStdioServerConfig
+from agentchart.tools import create_default_tool_registry
+from agentchart.tools.base import ToolExecutionContext
 
 
 @pytest.mark.asyncio

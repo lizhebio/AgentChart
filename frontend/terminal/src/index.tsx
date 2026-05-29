@@ -6,7 +6,9 @@ import tty from 'node:tty';
 import {App} from './App.js';
 import type {FrontendConfig} from './types.js';
 
-const config = JSON.parse(process.env.OPENHARNESS_FRONTEND_CONFIG ?? '{}') as FrontendConfig;
+const config = JSON.parse(
+	process.env.AGENTCHART_FRONTEND_CONFIG ?? process.env.OPENHARNESS_FRONTEND_CONFIG ?? '{}',
+) as FrontendConfig;
 
 // Restore terminal cursor visibility on exit (Ink hides it by default)
 const restoreCursor = (): void => {

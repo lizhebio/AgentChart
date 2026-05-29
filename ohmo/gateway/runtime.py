@@ -4,9 +4,9 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from openharness.channels.bus.events import InboundMessage
-from openharness.engine.stream_events import AssistantTextDelta, AssistantTurnComplete
-from openharness.ui.runtime import RuntimeBundle, build_runtime, start_runtime
+from agentchart.channels.bus.events import InboundMessage
+from agentchart.engine.stream_events import AssistantTextDelta, AssistantTurnComplete
+from agentchart.ui.runtime import RuntimeBundle, build_runtime, start_runtime
 
 from ohmo.prompts import build_ohmo_system_prompt
 from ohmo.session_storage import OhmoSessionBackend

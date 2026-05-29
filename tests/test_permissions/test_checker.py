@@ -4,8 +4,8 @@ import logging
 
 import pytest
 
-from openharness.config.settings import PathRuleConfig, PermissionSettings
-from openharness.permissions import PermissionChecker, PermissionMode
+from agentchart.config.settings import PathRuleConfig, PermissionSettings
+from agentchart.permissions import PermissionChecker, PermissionMode
 
 
 def test_default_mode_allows_read_only():
@@ -63,7 +63,7 @@ def _settings_with_rules(*rules) -> PermissionSettings:
 def test_invalid_pattern_rule_is_skipped_and_warns(bad_rule, caplog):
     """Rules with missing, empty, or non-string patterns are skipped with a warning."""
     settings = _settings_with_rules(bad_rule)
-    with caplog.at_level(logging.WARNING, logger="openharness.permissions.checker"):
+    with caplog.at_level(logging.WARNING, logger="agentchart.permissions.checker"):
         checker = PermissionChecker(settings)
 
     assert checker._path_rules == []

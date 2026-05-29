@@ -18,7 +18,7 @@ evaluation.
 
 | Project | Workflow Loop | Tool Adapter | Workspace / Sandbox | Memory | Skills | Subagents | Permissions | Observability | Evaluation Fit | Notes |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| OpenHarness | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | Python CLI harness with tools, skills, sessions, memory, permissions, and tests. The new MVP adds durable AgentChart runs. |
+| AgentChart | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | Python CLI harness with tools, skills, sessions, memory, permissions, and tests. The new MVP adds durable AgentChart runs. |
 | OpenClaw | 3 | 3 | 3 | 2 | 2 | 3 | 3 | 3 | 2 | Strongest controller evidence: channel bindings, heartbeat, subagent policy, sandbox config, event stream, SDK run surface. |
 | DeepAgents | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | Clean library abstraction around graph assembly, middleware, filesystem, memory, skills, permissions, and subagents. Controller is mostly external. |
 | Claude Code Extracted | 3 | 3 | 3 | 2 | 2 | 3 | 3 | 3 | 2 | Strong AgentDefinition and runtime adapter semantics: tools/MCP, permission precedence, isolation, sidechain transcript, cleanup. |
@@ -32,11 +32,11 @@ evaluation.
 | Agent package | Declarative identity, model, prompt, tools, permissions, memory, skills, session, and workflow intent | OpenClaw `AgentConfig`; Claude Code `AgentDefinition`; DeepAgents `create_deep_agent(...)` parameters |
 | Harness adapter | Compiles package intent into native runtime config and preserves prompt/tool/session semantics | DeepAgents graph assembler; Claude Code `runAgent`; OpenClaw runner; Hermes conversation loop |
 | Controller | Installs, runs, resumes, pauses, binds channels, applies policy, captures telemetry, and tracks status | OpenClaw has the strongest native shape; the MVP adds this as a local durable runner |
-| Tool adapter | Structured tool schema, executor boundary, result normalization, timeout, and failure semantics | Claude Code tools/MCP; OpenHarness tool tests; open-webui tools/functions |
+| Tool adapter | Structured tool schema, executor boundary, result normalization, timeout, and failure semantics | Claude Code tools/MCP; AgentChart tool tests; open-webui tools/functions |
 | Permissions | Tool/resource allow and deny rules, approval, sandbox, and inheritance policy | Claude Code permission precedence; DeepAgents HITL; OpenClaw sandbox/subagent policy |
-| Memory lifecycle | Separates active context, summaries, durable notes, reconstructible tool output, and stale state | Claude memory scopes; DeepAgents memory middleware; OpenHarness/ohmo workspace memory |
-| Skills | Versionable procedural knowledge loaded on demand | Claude skills; DeepAgents skills middleware; OpenHarness skills/plugins |
-| Observability | Normalized event stream plus raw runtime events, transcripts, checkpoints, and cost counters | OpenClaw event stream; Claude sidechain transcript; OpenHarness testable traces |
+| Memory lifecycle | Separates active context, summaries, durable notes, reconstructible tool output, and stale state | Claude memory scopes; DeepAgents memory middleware; AgentChart/ohmo workspace memory |
+| Skills | Versionable procedural knowledge loaded on demand | Claude skills; DeepAgents skills middleware; AgentChart skills/plugins |
+| Observability | Normalized event stream plus raw runtime events, transcripts, checkpoints, and cost counters | OpenClaw event stream; Claude sidechain transcript; AgentChart testable traces |
 | Evaluation | Final output plus trace, safety, cost, state, and attribution metrics | Existing benchmark literature; MVP stores run-level traces for later evaluators |
 
 ## Practical Design Rules

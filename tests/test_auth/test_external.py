@@ -7,7 +7,7 @@ from pathlib import Path
 import pytest
 from typer.testing import CliRunner
 
-from openharness.auth.external import (
+from agentchart.auth.external import (
     CLAUDE_PROVIDER,
     CODEX_PROVIDER,
     ExternalAuthState,
@@ -17,9 +17,9 @@ from openharness.auth.external import (
     load_external_credential,
     refresh_claude_oauth_credential,
 )
-from openharness.auth.storage import ExternalAuthBinding, load_external_binding, store_external_binding
-from openharness.cli import app
-from openharness.config.settings import Settings, load_settings
+from agentchart.auth.storage import ExternalAuthBinding, load_external_binding, store_external_binding
+from agentchart.cli import app
+from agentchart.config.settings import Settings, load_settings
 
 
 def _b64url(data: dict[str, object]) -> str:
@@ -94,7 +94,7 @@ def test_load_claude_external_credential(monkeypatch, tmp_path: Path):
 
 def test_settings_resolve_auth_uses_external_binding(monkeypatch, tmp_path: Path):
     config_dir = tmp_path / "config"
-    monkeypatch.setenv("OPENHARNESS_CONFIG_DIR", str(config_dir))
+    monkeypatch.setenv("AGENTCHART_CONFIG_DIR", str(config_dir))
     source = tmp_path / "claude-credentials.json"
     source.write_text(
         json.dumps(
@@ -127,7 +127,7 @@ def test_settings_resolve_auth_uses_external_binding(monkeypatch, tmp_path: Path
 
 def test_settings_resolve_auth_refreshes_expired_external_binding(monkeypatch, tmp_path: Path):
     config_dir = tmp_path / "config"
-    monkeypatch.setenv("OPENHARNESS_CONFIG_DIR", str(config_dir))
+    monkeypatch.setenv("AGENTCHART_CONFIG_DIR", str(config_dir))
     source = tmp_path / "claude-credentials.json"
     source.write_text(
         json.dumps(
@@ -142,7 +142,7 @@ def test_settings_resolve_auth_refreshes_expired_external_binding(monkeypatch, t
         encoding="utf-8",
     )
     monkeypatch.setattr(
-        "openharness.auth.external.refresh_claude_oauth_credential",
+        "agentchart.auth.external.refresh_claude_oauth_credential",
         lambda refresh_token: {
             "access_token": "fresh-token",
             "refresh_token": refresh_token,
@@ -185,7 +185,7 @@ def test_cli_codex_login_binds_without_switching(monkeypatch, tmp_path: Path):
         ),
         encoding="utf-8",
     )
-    monkeypatch.setenv("OPENHARNESS_CONFIG_DIR", str(config_dir))
+    monkeypatch.setenv("AGENTCHART_CONFIG_DIR", str(config_dir))
     monkeypatch.setenv("CODEX_HOME", str(codex_home))
 
     (config_dir / "settings.json").write_text(
@@ -210,7 +210,7 @@ def test_cli_codex_login_binds_without_switching(monkeypatch, tmp_path: Path):
     assert settings.provider == "openai"
     assert settings.base_url == "https://api.moonshot.cn/anthropic"
     assert settings.api_key == "stale-key"
-    assert "Use `oh provider use codex` to activate it." in result.stdout
+    assert "Use `ac provider use codex` to activate it." in result.stdout
     binding = load_external_binding(CODEX_PROVIDER)
     assert binding is not None
     assert Path(binding.source_path) == codex_home / "auth.json"
@@ -232,7 +232,7 @@ def test_cli_claude_login_binds_without_switching(monkeypatch, tmp_path: Path):
         ),
         encoding="utf-8",
     )
-    monkeypatch.setenv("OPENHARNESS_CONFIG_DIR", str(config_dir))
+    monkeypatch.setenv("AGENTCHART_CONFIG_DIR", str(config_dir))
     monkeypatch.setenv("CLAUDE_HOME", str(claude_home))
 
     runner = CliRunner()
@@ -243,7 +243,7 @@ def test_cli_claude_login_binds_without_switching(monkeypatch, tmp_path: Path):
     assert settings.provider == "anthropic"
     assert settings.api_format == "anthropic"
     assert settings.active_profile == "claude-api"
-    assert "Use `oh provider use claude-subscription` to activate it." in result.stdout
+    assert "Use `ac provider use claude-subscription` to activate it." in result.stdout
     binding = load_external_binding(CLAUDE_PROVIDER)
     assert binding is not None
     assert Path(binding.source_path) == claude_home / ".credentials.json"
@@ -267,10 +267,10 @@ def test_cli_claude_login_refreshes_expired_credentials(monkeypatch, tmp_path: P
         ),
         encoding="utf-8",
     )
-    monkeypatch.setenv("OPENHARNESS_CONFIG_DIR", str(config_dir))
+    monkeypatch.setenv("AGENTCHART_CONFIG_DIR", str(config_dir))
     monkeypatch.setenv("CLAUDE_HOME", str(claude_home))
     monkeypatch.setattr(
-        "openharness.auth.external.refresh_claude_oauth_credential",
+        "agentchart.auth.external.refresh_claude_oauth_credential",
         lambda refresh_token: {
             "access_token": "fresh-token",
             "refresh_token": refresh_token,
@@ -305,7 +305,7 @@ def test_cli_provider_use_activates_codex_profile(monkeypatch, tmp_path: Path):
         ),
         encoding="utf-8",
     )
-    monkeypatch.setenv("OPENHARNESS_CONFIG_DIR", str(config_dir))
+    monkeypatch.setenv("AGENTCHART_CONFIG_DIR", str(config_dir))
     monkeypatch.setenv("CODEX_HOME", str(codex_home))
 
     runner = CliRunner()
@@ -327,7 +327,7 @@ def test_settings_resolve_auth_rejects_third_party_base_url_for_claude_subscript
     tmp_path: Path,
 ):
     config_dir = tmp_path / "config"
-    monkeypatch.setenv("OPENHARNESS_CONFIG_DIR", str(config_dir))
+    monkeypatch.setenv("AGENTCHART_CONFIG_DIR", str(config_dir))
     source = tmp_path / "claude-credentials.json"
     source.write_text(
         json.dumps(
@@ -409,10 +409,10 @@ def test_refresh_claude_oauth_credential(monkeypatch):
             ).encode("utf-8")
 
     monkeypatch.setattr(
-        "openharness.auth.external.urllib.request.urlopen",
+        "agentchart.auth.external.urllib.request.urlopen",
         lambda request, timeout=10: _FakeResponse(),
     )
-    monkeypatch.setattr("openharness.auth.external.time.time", lambda: 1000)
+    monkeypatch.setattr("agentchart.auth.external.time.time", lambda: 1000)
 
     refreshed = refresh_claude_oauth_credential("refresh-token")
 
@@ -427,9 +427,9 @@ def test_get_claude_code_version_uses_fallback(monkeypatch):
         stdout = ""
 
     monkeypatch.setattr(
-        "openharness.auth.external.subprocess.run",
+        "agentchart.auth.external.subprocess.run",
         lambda *args, **kwargs: _Result(),
     )
-    monkeypatch.setattr("openharness.auth.external._claude_code_version_cache", None)
+    monkeypatch.setattr("agentchart.auth.external._claude_code_version_cache", None)
 
     assert get_claude_code_version() == "2.1.92"

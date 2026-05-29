@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from openharness.channels.bus.events import InboundMessage
+from agentchart.channels.bus.events import InboundMessage
 
 from ohmo.gateway.router import session_key_for_message
 

@@ -7,12 +7,12 @@ import json
 
 import pytest
 
-from openharness.api.client import ApiMessageCompleteEvent
-from openharness.api.usage import UsageSnapshot
-from openharness.engine.messages import ConversationMessage, TextBlock
-from openharness.ui.backend_host import BackendHostConfig, ReactBackendHost
-from openharness.ui.protocol import BackendEvent
-from openharness.ui.runtime import build_runtime, close_runtime, start_runtime
+from agentchart.api.client import ApiMessageCompleteEvent
+from agentchart.api.usage import UsageSnapshot
+from agentchart.engine.messages import ConversationMessage, TextBlock
+from agentchart.ui.backend_host import BackendHostConfig, ReactBackendHost
+from agentchart.ui.protocol import BackendEvent
+from agentchart.ui.runtime import build_runtime, close_runtime, start_runtime
 
 
 class StaticApiClient:
@@ -56,8 +56,8 @@ class FakeBinaryStdout:
 @pytest.mark.asyncio
 async def test_backend_host_processes_command(tmp_path, monkeypatch):
     monkeypatch.chdir(tmp_path)
-    monkeypatch.setenv("OPENHARNESS_CONFIG_DIR", str(tmp_path / "config"))
-    monkeypatch.setenv("OPENHARNESS_DATA_DIR", str(tmp_path / "data"))
+    monkeypatch.setenv("AGENTCHART_CONFIG_DIR", str(tmp_path / "config"))
+    monkeypatch.setenv("AGENTCHART_DATA_DIR", str(tmp_path / "data"))
 
     host = ReactBackendHost(BackendHostConfig(api_client=StaticApiClient("unused")))
     host._bundle = await build_runtime(api_client=StaticApiClient("unused"))
@@ -79,7 +79,7 @@ async def test_backend_host_processes_command(tmp_path, monkeypatch):
         event.type == "transcript_item"
         and event.item
         and event.item.role == "system"
-        and "OpenHarness" in event.item.text
+        and "AgentChart" in event.item.text
         for event in events
     )
     assert any(event.type == "state_snapshot" for event in events)
@@ -88,8 +88,8 @@ async def test_backend_host_processes_command(tmp_path, monkeypatch):
 @pytest.mark.asyncio
 async def test_backend_host_processes_model_turn(tmp_path, monkeypatch):
     monkeypatch.chdir(tmp_path)
-    monkeypatch.setenv("OPENHARNESS_CONFIG_DIR", str(tmp_path / "config"))
-    monkeypatch.setenv("OPENHARNESS_DATA_DIR", str(tmp_path / "data"))
+    monkeypatch.setenv("AGENTCHART_CONFIG_DIR", str(tmp_path / "config"))
+    monkeypatch.setenv("AGENTCHART_DATA_DIR", str(tmp_path / "data"))
 
     host = ReactBackendHost(BackendHostConfig(api_client=StaticApiClient("hello from react backend")))
     host._bundle = await build_runtime(api_client=StaticApiClient("hello from react backend"))
@@ -122,8 +122,8 @@ async def test_backend_host_processes_model_turn(tmp_path, monkeypatch):
 @pytest.mark.asyncio
 async def test_backend_host_surfaces_query_errors(tmp_path, monkeypatch):
     monkeypatch.chdir(tmp_path)
-    monkeypatch.setenv("OPENHARNESS_CONFIG_DIR", str(tmp_path / "config"))
-    monkeypatch.setenv("OPENHARNESS_DATA_DIR", str(tmp_path / "data"))
+    monkeypatch.setenv("AGENTCHART_CONFIG_DIR", str(tmp_path / "config"))
+    monkeypatch.setenv("AGENTCHART_DATA_DIR", str(tmp_path / "data"))
 
     host = ReactBackendHost(BackendHostConfig(api_client=FailingApiClient("rate limit")))
     host._bundle = await build_runtime(api_client=FailingApiClient("rate limit"))
@@ -156,12 +156,12 @@ async def test_backend_host_command_does_not_reset_cli_overrides(tmp_path, monke
 
     When the session is launched with CLI overrides (e.g. --provider openai -m 5.4),
     issuing a command like /fast triggers a UI state refresh. That refresh must
-    preserve the effective session settings, not reload ~/.openharness/settings.json
+    preserve the effective session settings, not reload ~/.agentchart/settings.json
     verbatim.
     """
     monkeypatch.chdir(tmp_path)
-    monkeypatch.setenv("OPENHARNESS_CONFIG_DIR", str(tmp_path / "config"))
-    monkeypatch.setenv("OPENHARNESS_DATA_DIR", str(tmp_path / "data"))
+    monkeypatch.setenv("AGENTCHART_CONFIG_DIR", str(tmp_path / "config"))
+    monkeypatch.setenv("AGENTCHART_DATA_DIR", str(tmp_path / "data"))
 
     host = ReactBackendHost(BackendHostConfig(api_client=StaticApiClient("unused")))
     host._bundle = await build_runtime(
@@ -194,8 +194,8 @@ async def test_backend_host_command_does_not_reset_cli_overrides(tmp_path, monke
 @pytest.mark.asyncio
 async def test_build_runtime_leaves_interactive_sessions_unbounded_by_default(tmp_path, monkeypatch):
     monkeypatch.chdir(tmp_path)
-    monkeypatch.setenv("OPENHARNESS_CONFIG_DIR", str(tmp_path / "config"))
-    monkeypatch.setenv("OPENHARNESS_DATA_DIR", str(tmp_path / "data"))
+    monkeypatch.setenv("AGENTCHART_CONFIG_DIR", str(tmp_path / "config"))
+    monkeypatch.setenv("AGENTCHART_DATA_DIR", str(tmp_path / "data"))
 
     bundle = await build_runtime(
         api_client=StaticApiClient("unused"),
@@ -212,7 +212,7 @@ async def test_build_runtime_leaves_interactive_sessions_unbounded_by_default(tm
 async def test_backend_host_emits_utf8_protocol_bytes(monkeypatch):
     host = ReactBackendHost(BackendHostConfig())
     fake_stdout = FakeBinaryStdout()
-    monkeypatch.setattr("openharness.ui.backend_host.sys.stdout", fake_stdout)
+    monkeypatch.setattr("agentchart.ui.backend_host.sys.stdout", fake_stdout)
 
     await host._emit(BackendEvent(type="assistant_delta", message="你好😊"))
 
@@ -227,8 +227,8 @@ async def test_backend_host_emits_utf8_protocol_bytes(monkeypatch):
 @pytest.mark.asyncio
 async def test_backend_host_emits_model_select_request(tmp_path, monkeypatch):
     monkeypatch.chdir(tmp_path)
-    monkeypatch.setenv("OPENHARNESS_CONFIG_DIR", str(tmp_path / "config"))
-    monkeypatch.setenv("OPENHARNESS_DATA_DIR", str(tmp_path / "data"))
+    monkeypatch.setenv("AGENTCHART_CONFIG_DIR", str(tmp_path / "config"))
+    monkeypatch.setenv("AGENTCHART_DATA_DIR", str(tmp_path / "data"))
 
     host = ReactBackendHost(BackendHostConfig(api_client=StaticApiClient("unused")))
     host._bundle = await build_runtime(api_client=StaticApiClient("unused"), model="opus", api_format="anthropic")
@@ -253,8 +253,8 @@ async def test_backend_host_emits_model_select_request(tmp_path, monkeypatch):
 @pytest.mark.asyncio
 async def test_backend_host_emits_theme_select_request(tmp_path, monkeypatch):
     monkeypatch.chdir(tmp_path)
-    monkeypatch.setenv("OPENHARNESS_CONFIG_DIR", str(tmp_path / "config"))
-    monkeypatch.setenv("OPENHARNESS_DATA_DIR", str(tmp_path / "data"))
+    monkeypatch.setenv("AGENTCHART_CONFIG_DIR", str(tmp_path / "config"))
+    monkeypatch.setenv("AGENTCHART_DATA_DIR", str(tmp_path / "data"))
 
     host = ReactBackendHost(BackendHostConfig(api_client=StaticApiClient("unused")))
     host._bundle = await build_runtime(api_client=StaticApiClient("unused"))
@@ -278,8 +278,8 @@ async def test_backend_host_emits_theme_select_request(tmp_path, monkeypatch):
 @pytest.mark.asyncio
 async def test_backend_host_emits_turns_select_request_with_unlimited_option(tmp_path, monkeypatch):
     monkeypatch.chdir(tmp_path)
-    monkeypatch.setenv("OPENHARNESS_CONFIG_DIR", str(tmp_path / "config"))
-    monkeypatch.setenv("OPENHARNESS_DATA_DIR", str(tmp_path / "data"))
+    monkeypatch.setenv("AGENTCHART_CONFIG_DIR", str(tmp_path / "config"))
+    monkeypatch.setenv("AGENTCHART_DATA_DIR", str(tmp_path / "data"))
 
     host = ReactBackendHost(BackendHostConfig(api_client=StaticApiClient("unused")))
     host._bundle = await build_runtime(api_client=StaticApiClient("unused"), enforce_max_turns=False)
@@ -303,8 +303,8 @@ async def test_backend_host_emits_turns_select_request_with_unlimited_option(tmp
 @pytest.mark.asyncio
 async def test_backend_host_emits_provider_select_request(tmp_path, monkeypatch):
     monkeypatch.chdir(tmp_path)
-    monkeypatch.setenv("OPENHARNESS_CONFIG_DIR", str(tmp_path / "config"))
-    monkeypatch.setenv("OPENHARNESS_DATA_DIR", str(tmp_path / "data"))
+    monkeypatch.setenv("AGENTCHART_CONFIG_DIR", str(tmp_path / "config"))
+    monkeypatch.setenv("AGENTCHART_DATA_DIR", str(tmp_path / "data"))
 
     host = ReactBackendHost(BackendHostConfig(api_client=StaticApiClient("unused")))
     host._bundle = await build_runtime(api_client=StaticApiClient("unused"))
@@ -328,8 +328,8 @@ async def test_backend_host_emits_provider_select_request(tmp_path, monkeypatch)
 @pytest.mark.asyncio
 async def test_backend_host_apply_select_command_shows_single_segment_transcript(tmp_path, monkeypatch):
     monkeypatch.chdir(tmp_path)
-    monkeypatch.setenv("OPENHARNESS_CONFIG_DIR", str(tmp_path / "config"))
-    monkeypatch.setenv("OPENHARNESS_DATA_DIR", str(tmp_path / "data"))
+    monkeypatch.setenv("AGENTCHART_CONFIG_DIR", str(tmp_path / "config"))
+    monkeypatch.setenv("AGENTCHART_DATA_DIR", str(tmp_path / "data"))
 
     host = ReactBackendHost(BackendHostConfig(api_client=StaticApiClient("unused")))
     host._bundle = await build_runtime(api_client=StaticApiClient("unused"))
@@ -353,8 +353,8 @@ async def test_backend_host_apply_select_command_shows_single_segment_transcript
 @pytest.mark.asyncio
 async def test_backend_host_apply_provider_select_command_shows_single_segment_transcript(tmp_path, monkeypatch):
     monkeypatch.chdir(tmp_path)
-    monkeypatch.setenv("OPENHARNESS_CONFIG_DIR", str(tmp_path / "config"))
-    monkeypatch.setenv("OPENHARNESS_DATA_DIR", str(tmp_path / "data"))
+    monkeypatch.setenv("AGENTCHART_CONFIG_DIR", str(tmp_path / "config"))
+    monkeypatch.setenv("AGENTCHART_DATA_DIR", str(tmp_path / "data"))
 
     host = ReactBackendHost(BackendHostConfig(api_client=StaticApiClient("unused")))
     host._bundle = await build_runtime(api_client=StaticApiClient("unused"))

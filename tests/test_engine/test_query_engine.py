@@ -7,23 +7,23 @@ from pathlib import Path
 
 import pytest
 
-from openharness.api.client import ApiMessageCompleteEvent, ApiRetryEvent, ApiTextDeltaEvent
-from openharness.api.usage import UsageSnapshot
-from openharness.config.settings import PermissionSettings
-from openharness.engine.messages import ConversationMessage, TextBlock, ToolUseBlock
-from openharness.engine.query_engine import QueryEngine
-from openharness.engine.stream_events import (
+from agentchart.api.client import ApiMessageCompleteEvent, ApiRetryEvent, ApiTextDeltaEvent
+from agentchart.api.usage import UsageSnapshot
+from agentchart.config.settings import PermissionSettings
+from agentchart.engine.messages import ConversationMessage, TextBlock, ToolUseBlock
+from agentchart.engine.query_engine import QueryEngine
+from agentchart.engine.stream_events import (
     AssistantTextDelta,
     AssistantTurnComplete,
     StatusEvent,
     ToolExecutionCompleted,
     ToolExecutionStarted,
 )
-from openharness.permissions import PermissionChecker, PermissionMode
-from openharness.tools import create_default_tool_registry
-from openharness.hooks import HookExecutionContext, HookExecutor, HookEvent
-from openharness.hooks.loader import HookRegistry
-from openharness.hooks.schemas import PromptHookDefinition
+from agentchart.permissions import PermissionChecker, PermissionMode
+from agentchart.tools import create_default_tool_registry
+from agentchart.hooks import HookExecutionContext, HookExecutor, HookEvent
+from agentchart.hooks.loader import HookRegistry
+from agentchart.hooks.schemas import PromptHookDefinition
 
 
 @dataclass

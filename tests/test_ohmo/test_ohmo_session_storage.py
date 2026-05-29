@@ -1,7 +1,7 @@
 from pathlib import Path
 
-from openharness.api.usage import UsageSnapshot
-from openharness.engine.messages import ConversationMessage
+from agentchart.api.usage import UsageSnapshot
+from agentchart.engine.messages import ConversationMessage
 
 from ohmo.session_storage import OhmoSessionBackend, get_session_dir
 from ohmo.workspace import initialize_workspace

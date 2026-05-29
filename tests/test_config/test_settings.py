@@ -1,4 +1,4 @@
-"""Tests for openharness.config.settings."""
+"""Tests for agentchart.config.settings."""
 
 from __future__ import annotations
 
@@ -7,7 +7,7 @@ from pathlib import Path
 
 import pytest
 
-from openharness.config.settings import (
+from agentchart.config.settings import (
     ProviderProfile,
     Settings,
     display_model_setting,
@@ -252,10 +252,10 @@ def test_normalize_anthropic_model_name_matches_hermes_behavior():
         path.write_text(json.dumps({"model": "from-file", "base_url": "https://file.example"}))
         monkeypatch.setenv("ANTHROPIC_MODEL", "from-env-model")
         monkeypatch.setenv("ANTHROPIC_BASE_URL", "https://env.example/anthropic")
-        monkeypatch.setenv("OPENHARNESS_MAX_TURNS", "42")
+        monkeypatch.setenv("AGENTCHART_MAX_TURNS", "42")
         monkeypatch.setenv("ANTHROPIC_API_KEY", "sk-env-override")
-        monkeypatch.setenv("OPENHARNESS_SANDBOX_ENABLED", "true")
-        monkeypatch.setenv("OPENHARNESS_SANDBOX_FAIL_IF_UNAVAILABLE", "1")
+        monkeypatch.setenv("AGENTCHART_SANDBOX_ENABLED", "true")
+        monkeypatch.setenv("AGENTCHART_SANDBOX_FAIL_IF_UNAVAILABLE", "1")
 
         s = load_settings(path)
 

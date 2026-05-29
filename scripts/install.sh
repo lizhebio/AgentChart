@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# OpenHarness one-click installer
-# Usage: curl -fsSL https://raw.githubusercontent.com/HKUDS/OpenHarness/main/scripts/install.sh | bash
+# AgentChart one-click installer
+# Usage: curl -fsSL https://raw.githubusercontent.com/lizhebio/AgentChart/main/scripts/install.sh | bash
 #        bash scripts/install.sh [--from-source] [--with-channels]
 
 set -euo pipefail
@@ -57,8 +57,8 @@ done
 echo ""
 echo -e "${BOLD}${CYAN}  ██████╗ ██╗  ██╗${RESET}"
 echo -e "${BOLD}${CYAN} ██╔═══██╗██║  ██║${RESET}"
-echo -e "${BOLD}${CYAN} ██║   ██║███████║${RESET}   OpenHarness Installer"
-echo -e "${BOLD}${CYAN} ██║   ██║██╔══██║${RESET}   Open Agent Harness"
+echo -e "${BOLD}${CYAN} ██║   ██║███████║${RESET}   AgentChart Installer"
+echo -e "${BOLD}${CYAN} ██║   ██║██╔══██║${RESET}   Declarative Agent Charts"
 echo -e "${BOLD}${CYAN} ╚██████╔╝██║  ██║${RESET}"
 echo -e "${BOLD}${CYAN}  ╚═════╝ ╚═╝  ╚═╝${RESET}"
 echo ""
@@ -179,13 +179,13 @@ else
 fi
 
 # ---------------------------------------------------------------------------
-# Step 4: Install OpenHarness
+# Step 4: Install AgentChart
 # ---------------------------------------------------------------------------
-step "Installing OpenHarness"
+step "Installing AgentChart"
 
-REPO_URL="https://github.com/HKUDS/OpenHarness.git"
-INSTALL_DIR="$HOME/.openharness-src"
-VENV_DIR="$HOME/.openharness-venv"
+REPO_URL="https://github.com/lizhebio/AgentChart.git"
+INSTALL_DIR="$HOME/.agentchart-src"
+VENV_DIR="$HOME/.agentchart-venv"
 
 # ---------------------------------------------------------------------------
 # Create a virtual environment to avoid PEP 668 externally-managed errors
@@ -209,7 +209,7 @@ if [ "$FROM_SOURCE" = true ]; then
             info "Source directory exists, pulling latest changes..."
             git -C "$INSTALL_DIR" pull --ff-only
         else
-            info "Cloning OpenHarness into ${INSTALL_DIR}..."
+            info "Cloning AgentChart into ${INSTALL_DIR}..."
             git clone "$REPO_URL" "$INSTALL_DIR"
         fi
     else
@@ -225,11 +225,11 @@ if [ "$FROM_SOURCE" = true ]; then
     info "Installing in editable mode (pip install -e .)..."
     $PIP_CMD install -e "$INSTALL_DIR" --quiet
 else
-    info "Mode: pip install openharness-ai"
-    $PIP_CMD install openharness-ai --quiet --upgrade
+    info "Mode: pip install agentchart"
+    $PIP_CMD install agentchart --quiet --upgrade
 fi
 
-success "OpenHarness package installed"
+success "AgentChart package installed"
 
 # ---------------------------------------------------------------------------
 # Step 5: Install IM channel dependencies (--with-channels)
@@ -264,35 +264,35 @@ if [ "$NODE_OK" = true ]; then
 fi
 
 # ---------------------------------------------------------------------------
-# Step 7: Create OpenHarness config directory
+# Step 7: Create AgentChart config directory
 # ---------------------------------------------------------------------------
-step "Setting up OpenHarness config directory"
+step "Setting up AgentChart config directory"
 
-mkdir -p "$HOME/.openharness"
-mkdir -p "$HOME/.openharness/skills"
-mkdir -p "$HOME/.openharness/plugins"
+mkdir -p "$HOME/.agentchart"
+mkdir -p "$HOME/.agentchart/skills"
+mkdir -p "$HOME/.agentchart/plugins"
 
-success "Config directory ready: ~/.openharness/"
+success "Config directory ready: ~/.agentchart/"
 
 # ---------------------------------------------------------------------------
 # Step 8: Verify installation
 # ---------------------------------------------------------------------------
 step "Verifying installation"
 
-if command -v oh &>/dev/null; then
-    OH_VERSION=$(oh --version 2>&1 || echo "(version check failed)")
+if command -v ac &>/dev/null; then
+    OH_VERSION=$(ac --version 2>&1 || echo "(version check failed)")
     success "Installation successful!"
     echo ""
-    echo -e "  ${BOLD}oh${RESET} is ready: ${GREEN}${OH_VERSION}${RESET}"
-elif "$PYTHON_CMD" -m openharness --version &>/dev/null 2>&1; then
-    OH_VERSION=$("$PYTHON_CMD" -m openharness --version 2>&1)
-    warn "'oh' not in PATH. Run via: python -m openharness"
+    echo -e "  ${BOLD}ac${RESET} is ready: ${GREEN}${OH_VERSION}${RESET}"
+elif "$PYTHON_CMD" -m agentchart --version &>/dev/null 2>&1; then
+    OH_VERSION=$("$PYTHON_CMD" -m agentchart --version 2>&1)
+    warn "'ac' not in PATH. Run via: python -m agentchart"
     echo "  Version: ${OH_VERSION}"
-    echo "  To add 'oh' to PATH, ensure your Python bin directory is in PATH:"
+    echo "  To add 'ac' to PATH, ensure your Python bin directory is in PATH:"
     echo "    export PATH=\"\$($PYTHON_CMD -m site --user-base)/bin:\$PATH\""
 else
-    warn "Could not verify 'oh' command. The package may need a PATH update."
-    echo "  Try: $PYTHON_CMD -m openharness --version"
+    warn "Could not verify 'ac' command. The package may need a PATH update."
+    echo "  Try: $PYTHON_CMD -m agentchart --version"
     echo "  Or add Python's user bin to PATH and restart your shell."
 fi
 
@@ -315,7 +315,7 @@ ACTIVATION_LINE="export PATH=\"$VENV_DIR/bin:\$PATH\""
 if [ -n "$SHELL_RC" ]; then
     if ! grep -q "$VENV_DIR/bin" "$SHELL_RC" 2>/dev/null; then
         echo "" >> "$SHELL_RC"
-        echo "# OpenHarness" >> "$SHELL_RC"
+        echo "# AgentChart" >> "$SHELL_RC"
         echo "$ACTIVATION_LINE" >> "$SHELL_RC"
         success "Added $VENV_DIR/bin to PATH in $(basename $SHELL_RC)"
     else
@@ -330,11 +330,11 @@ fi
 # Done
 # ---------------------------------------------------------------------------
 echo ""
-echo -e "${BOLD}${GREEN}OpenHarness is installed!${RESET}"
+echo -e "${BOLD}${GREEN}AgentChart is installed!${RESET}"
 echo ""
 echo "  Next steps:"
 echo "    1. Restart shell (or run):  source ${SHELL_RC:-~/.bashrc}"
 echo "    2. Set your API key:        export ANTHROPIC_API_KEY=your_key"
-echo "    3. Launch:                  oh"
-echo "    4. Docs:                    https://github.com/HKUDS/OpenHarness"
+echo "    3. Launch:                  ac"
+echo "    4. Docs:                    https://github.com/lizhebio/AgentChart"
 echo ""

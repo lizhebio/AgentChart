@@ -20,7 +20,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
-from openharness.config.settings import Settings
+from agentchart.config.settings import Settings
 
 API_KEY = os.environ.get("ANTHROPIC_API_KEY", "sk-Ue1kdhq9prvNwuwySlzRtWVD7ek0iJJaHyPdKDa3ecKLwYuG")
 BASE_URL = os.environ.get("ANTHROPIC_BASE_URL", "https://api.moonshot.cn/anthropic")
@@ -32,7 +32,7 @@ RESULTS: dict[str, tuple[bool, float]] = {}
 
 
 def collect(events):
-    from openharness.engine.stream_events import (
+    from agentchart.engine.stream_events import (
         AssistantTextDelta, AssistantTurnComplete,
         ToolExecutionStarted, ToolExecutionCompleted,
     )
@@ -63,20 +63,20 @@ async def task_hook_blocks_model_adapts():
     print("  Task 1: Hook blocks bash → model must adapt to glob/grep")
     print("=" * 70)
 
-    from openharness.api.client import AnthropicApiClient
-    from openharness.config.settings import PermissionSettings
-    from openharness.engine.query_engine import QueryEngine
-    from openharness.permissions.checker import PermissionChecker
-    from openharness.permissions.modes import PermissionMode
-    from openharness.tools.base import ToolRegistry
-    from openharness.tools.bash_tool import BashTool
-    from openharness.tools.file_read_tool import FileReadTool
-    from openharness.tools.glob_tool import GlobTool
-    from openharness.tools.grep_tool import GrepTool
-    from openharness.hooks.events import HookEvent
-    from openharness.hooks.loader import HookRegistry
-    from openharness.hooks.schemas import CommandHookDefinition
-    from openharness.hooks.executor import HookExecutor, HookExecutionContext
+    from agentchart.api.client import AnthropicApiClient
+    from agentchart.config.settings import PermissionSettings
+    from agentchart.engine.query_engine import QueryEngine
+    from agentchart.permissions.checker import PermissionChecker
+    from agentchart.permissions.modes import PermissionMode
+    from agentchart.tools.base import ToolRegistry
+    from agentchart.tools.bash_tool import BashTool
+    from agentchart.tools.file_read_tool import FileReadTool
+    from agentchart.tools.glob_tool import GlobTool
+    from agentchart.tools.grep_tool import GrepTool
+    from agentchart.hooks.events import HookEvent
+    from agentchart.hooks.loader import HookRegistry
+    from agentchart.hooks.schemas import CommandHookDefinition
+    from agentchart.hooks.executor import HookExecutor, HookExecutionContext
 
     api = AnthropicApiClient(api_key=API_KEY, base_url=BASE_URL)
 
@@ -146,18 +146,18 @@ async def task_model_invokes_skill_tool():
     print("  Task 2: Model invokes skill tool, then follows skill instructions")
     print("=" * 70)
 
-    from openharness.api.client import AnthropicApiClient
-    from openharness.config.settings import PermissionSettings
-    from openharness.engine.query_engine import QueryEngine
-    from openharness.permissions.checker import PermissionChecker
-    from openharness.permissions.modes import PermissionMode
-    from openharness.tools.base import ToolRegistry
-    from openharness.tools.bash_tool import BashTool
-    from openharness.tools.file_read_tool import FileReadTool
-    from openharness.tools.glob_tool import GlobTool
-    from openharness.tools.grep_tool import GrepTool
-    from openharness.tools.skill_tool import SkillTool
-    import openharness.skills.loader as sl
+    from agentchart.api.client import AnthropicApiClient
+    from agentchart.config.settings import PermissionSettings
+    from agentchart.engine.query_engine import QueryEngine
+    from agentchart.permissions.checker import PermissionChecker
+    from agentchart.permissions.modes import PermissionMode
+    from agentchart.tools.base import ToolRegistry
+    from agentchart.tools.bash_tool import BashTool
+    from agentchart.tools.file_read_tool import FileReadTool
+    from agentchart.tools.glob_tool import GlobTool
+    from agentchart.tools.grep_tool import GrepTool
+    from agentchart.tools.skill_tool import SkillTool
+    import agentchart.skills.loader as sl
 
     with tempfile.TemporaryDirectory() as tmpdir:
         # Create a skill file that gives specific instructions
@@ -237,18 +237,18 @@ async def task_plugin_skill_in_agent_loop():
     print("  Task 3: Plugin-provided skill used through skill tool in agent loop")
     print("=" * 70)
 
-    from openharness.api.client import AnthropicApiClient
-    from openharness.config.settings import PermissionSettings
-    from openharness.engine.query_engine import QueryEngine
-    from openharness.permissions.checker import PermissionChecker
-    from openharness.permissions.modes import PermissionMode
-    from openharness.tools.base import ToolRegistry
-    from openharness.tools.bash_tool import BashTool
-    from openharness.tools.file_read_tool import FileReadTool
-    from openharness.tools.glob_tool import GlobTool
-    from openharness.tools.grep_tool import GrepTool
-    from openharness.tools.skill_tool import SkillTool
-    import openharness.skills.loader as sl
+    from agentchart.api.client import AnthropicApiClient
+    from agentchart.config.settings import PermissionSettings
+    from agentchart.engine.query_engine import QueryEngine
+    from agentchart.permissions.checker import PermissionChecker
+    from agentchart.permissions.modes import PermissionMode
+    from agentchart.tools.base import ToolRegistry
+    from agentchart.tools.bash_tool import BashTool
+    from agentchart.tools.file_read_tool import FileReadTool
+    from agentchart.tools.glob_tool import GlobTool
+    from agentchart.tools.grep_tool import GrepTool
+    from agentchart.tools.skill_tool import SkillTool
+    import agentchart.skills.loader as sl
 
     with tempfile.TemporaryDirectory() as tmpdir:
         # Create a plugin with a skill
@@ -279,7 +279,7 @@ To scan for hardcoded secrets:
 """)
 
         # Load plugin and make its skills available
-        from openharness.plugins.loader import load_plugin
+        from agentchart.plugins.loader import load_plugin
         plugin = load_plugin(plugin_dir, enabled_plugins={})
         print(f"  Plugin loaded: {plugin.name}, skills: {[s.name for s in plugin.skills]}")
 
@@ -340,24 +340,24 @@ async def task_hook_gates_writes_skill_guides():
     print("  Task 4: Hook gates file writes + skill guides refactoring workflow")
     print("=" * 70)
 
-    from openharness.api.client import AnthropicApiClient
-    from openharness.config.settings import PermissionSettings
-    from openharness.engine.query_engine import QueryEngine
-    from openharness.permissions.checker import PermissionChecker
-    from openharness.permissions.modes import PermissionMode
-    from openharness.tools.base import ToolRegistry
-    from openharness.tools.bash_tool import BashTool
-    from openharness.tools.file_read_tool import FileReadTool
-    from openharness.tools.file_write_tool import FileWriteTool
-    from openharness.tools.file_edit_tool import FileEditTool
-    from openharness.tools.glob_tool import GlobTool
-    from openharness.tools.grep_tool import GrepTool
-    from openharness.tools.skill_tool import SkillTool
-    from openharness.hooks.events import HookEvent
-    from openharness.hooks.loader import HookRegistry
-    from openharness.hooks.schemas import CommandHookDefinition
-    from openharness.hooks.executor import HookExecutor, HookExecutionContext
-    import openharness.skills.loader as sl
+    from agentchart.api.client import AnthropicApiClient
+    from agentchart.config.settings import PermissionSettings
+    from agentchart.engine.query_engine import QueryEngine
+    from agentchart.permissions.checker import PermissionChecker
+    from agentchart.permissions.modes import PermissionMode
+    from agentchart.tools.base import ToolRegistry
+    from agentchart.tools.bash_tool import BashTool
+    from agentchart.tools.file_read_tool import FileReadTool
+    from agentchart.tools.file_write_tool import FileWriteTool
+    from agentchart.tools.file_edit_tool import FileEditTool
+    from agentchart.tools.glob_tool import GlobTool
+    from agentchart.tools.grep_tool import GrepTool
+    from agentchart.tools.skill_tool import SkillTool
+    from agentchart.hooks.events import HookEvent
+    from agentchart.hooks.loader import HookRegistry
+    from agentchart.hooks.schemas import CommandHookDefinition
+    from agentchart.hooks.executor import HookExecutor, HookExecutionContext
+    import agentchart.skills.loader as sl
 
     with tempfile.TemporaryDirectory() as tmpdir:
         # Create skill
@@ -490,21 +490,21 @@ async def task_swarm_teammates_use_skills():
     print("  Task 5: 2 concurrent teammates each invoke different skills")
     print("=" * 70)
 
-    from openharness.swarm.in_process import start_in_process_teammate, TeammateAbortController
-    from openharness.swarm.types import TeammateSpawnConfig
-    from openharness.engine.query import QueryContext
-    from openharness.api.client import AnthropicApiClient
-    from openharness.config.settings import PermissionSettings
-    from openharness.permissions.checker import PermissionChecker
-    from openharness.permissions.modes import PermissionMode
-    from openharness.tools.base import ToolRegistry
-    from openharness.tools.bash_tool import BashTool
-    from openharness.tools.file_read_tool import FileReadTool
-    from openharness.tools.glob_tool import GlobTool
-    from openharness.tools.grep_tool import GrepTool
-    from openharness.tools.skill_tool import SkillTool
-    from openharness.tools.file_write_tool import FileWriteTool
-    import openharness.skills.loader as sl
+    from agentchart.swarm.in_process import start_in_process_teammate, TeammateAbortController
+    from agentchart.swarm.types import TeammateSpawnConfig
+    from agentchart.engine.query import QueryContext
+    from agentchart.api.client import AnthropicApiClient
+    from agentchart.config.settings import PermissionSettings
+    from agentchart.permissions.checker import PermissionChecker
+    from agentchart.permissions.modes import PermissionMode
+    from agentchart.tools.base import ToolRegistry
+    from agentchart.tools.bash_tool import BashTool
+    from agentchart.tools.file_read_tool import FileReadTool
+    from agentchart.tools.glob_tool import GlobTool
+    from agentchart.tools.grep_tool import GrepTool
+    from agentchart.tools.skill_tool import SkillTool
+    from agentchart.tools.file_write_tool import FileWriteTool
+    import agentchart.skills.loader as sl
 
     with tempfile.TemporaryDirectory() as tmpdir:
         skills_dir = Path(tmpdir) / "skills"
